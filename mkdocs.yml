@@ -1,0 +1,10 @@
+site_name: Otomatisasi D3TLH
+theme: readthedocs
+nav:
+  - Home : index.md
+  - A. Utilities : 
+    - MCA : mca.md
+    - SGSRI : grid.md
+  - B. Preprocessing : 
+    - Klasifikasi PL & Hutan KLHK : class_lckws.md
+    - Klasifikasi Jalan : class_road.md
