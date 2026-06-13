@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Klasifikasi Jalan - Otomatisasi D3TLH</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Klasifikasi Jalan";
+        var mkdocs_page_input_path = "class_road.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Otomatisasi D3TLH
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">A. Utilities</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../mca/">MCA</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../grid/">SGSRI</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">B. Preprocessing</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../class_lckws/">Klasifikasi PL & Hutan KLHK</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Klasifikasi Jalan</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#how-to-use">How to Use</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#standard-kjln-classes">Standard KJLN Classes</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#additional-options">Additional Options</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#load-json">Load JSON</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#save-json">Save JSON</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#only-fill-when-kjln-is-null">Only Fill When KJLN is NULL</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#output">Output</a>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Otomatisasi D3TLH</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">B. Preprocessing</li>
+      <li class="breadcrumb-item active">Klasifikasi Jalan</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="standardisasi-kelas-jalan-kjln">Standardisasi Kelas Jalan (KJLN)</h1>
+<h2 id="overview">Overview</h2>
+<p>This module standardizes road classes for use in population distribution modeling.</p>
+<p>The algorithm maps road class values from an input road layer to a predefined set of <strong>KJLN (Kelas Jalan)</strong> categories. The standardized class is stored in the <code>KJLN</code> field of the output layer while preserving the original input data.</p>
+<hr />
+<h2 id="how-to-use">How to Use</h2>
+<ol>
+<li>Select the road layer.</li>
+<li>Select the source field containing the original road class values.</li>
+<li>Click <strong>Run</strong>.</li>
+<li>A mapping dialog will appear:</li>
+<li><strong>Left panel</strong>: Unique values from the source road-class field.</li>
+<li><strong>Right panel</strong>: Dropdown list containing the standard KJLN classes.</li>
+<li>Assign each source value to the appropriate KJLN category.</li>
+<li>Optionally:</li>
+<li>Use <strong>Load JSON</strong> to load a previously saved mapping.</li>
+<li>Use <strong>Save JSON</strong> to save the current mapping for future use.</li>
+<li>Enable <strong>Only fill when KJLN is NULL</strong> if you want to preserve existing KJLN values.</li>
+<li>Execute the process.</li>
+</ol>
+<hr />
+<h2 id="standard-kjln-classes">Standard KJLN Classes</h2>
+<table>
+<thead>
+<tr>
+<th>KJLN Class</th>
+<th>English Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Jalan Arteri</td>
+<td>Arterial Road</td>
+</tr>
+<tr>
+<td>Jalan Kolektor</td>
+<td>Collector Road</td>
+</tr>
+<tr>
+<td>Jalan Lokal</td>
+<td>Local Road</td>
+</tr>
+<tr>
+<td>Jalan Lain</td>
+<td>Other Road</td>
+</tr>
+<tr>
+<td>Jalan Layang</td>
+<td>Elevated Road</td>
+</tr>
+<tr>
+<td>Jalan Sedang Dibangun</td>
+<td>Road Under Construction</td>
+</tr>
+<tr>
+<td>Jalan Setapak</td>
+<td>Footpath / Trail</td>
+</tr>
+<tr>
+<td>Jalan Tol Dua Jalur Dengan Pemisah Fisik</td>
+<td>Dual Carriageway Toll Road with Physical Median</td>
+</tr>
+<tr>
+<td>Jalan Tol Dua Jalur Tanpa Pemisah Fisik</td>
+<td>Dual Carriageway Toll Road without Physical Median</td>
+</tr>
+<tr>
+<td>Jalan Tol Layang</td>
+<td>Elevated Toll Road</td>
+</tr>
+<tr>
+<td>Jalan/Transportasi Darat Lainnya</td>
+<td>Other Land Transportation Infrastructure</td>
+</tr>
+<tr>
+<td>Pematang</td>
+<td>Dike / Embankment</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="additional-options">Additional Options</h2>
+<h3 id="load-json">Load JSON</h3>
+<p>Loads a previously saved mapping configuration and automatically assigns source road classes to KJLN categories.</p>
+<h3 id="save-json">Save JSON</h3>
+<p>Saves the current mapping configuration to a JSON file for reuse in future projects.</p>
+<h3 id="only-fill-when-kjln-is-null">Only Fill When KJLN is NULL</h3>
+<p>When enabled, the algorithm updates only features where the <code>KJLN</code> field is empty (<code>NULL</code>).</p>
+<p>This option is useful when:</p>
+<ul>
+<li>Updating partially classified datasets.</li>
+<li>Preventing overwriting of existing classifications.</li>
+<li>Incrementally improving road-class mappings.</li>
+</ul>
+<hr />
+<h2 id="output">Output</h2>
+<p>The output layer contains all original attributes plus a standardized <code>KJLN</code> field.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KJLN</td>
+<td>Standardized road class used for population distribution modeling</td>
+</tr>
+</tbody>
+</table>
+<p>The original input layer remains unchanged.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../class_lckws/" class="btn btn-neutral float-left" title="Klasifikasi PL & Hutan KLHK"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../class_lckws/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
