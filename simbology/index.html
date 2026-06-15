@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Simbology - Otomatisasi D3TLH</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Simbology";
+        var mkdocs_page_input_path = "simbology.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Otomatisasi D3TLH
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">A. Utilities</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../mca/">MCA</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../grid/">SGSRI</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">B. Preprocessing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../class_lckws/">Klasifikasi PL & Hutan KLHK</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../class_road/">Klasifikasi Jalan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../std_schema/">Standarisasi Skema Data</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../chk_quality/">Perbaikan Data</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../add_islandatrbt/">Penambahan Atribut Pulau</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">C. JLH</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../jlh/jlh_phk/">JLH Pendukung Habitat dan Kehati</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../jlh/jlh_pku/">JLH Pengatur Kualitas Udara</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../jlh/jlh_pga/">JLH Pengaturan Air</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../jlh/jlh_pya/">JLH Penyedia Air</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../jlh/jlh_pgn/">JLH Penyedia Pangan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../jlh/jlh_ppk/">JLH Penyerapan dan Penyimpanan Karbon</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">D. Demo and Eco Model</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../socio/dist_penduduk/">Model Distribusi Penduduk</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../socio/eco_footprint/">Model Jejak Ekologis</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">E. IKP</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../ikp/ikp_air/">IKP Air</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../ikp/ikp_kehati/">IKP Kehati</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../ikp/ikp_lahan/">IKP Lahan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../ikp/ikp_udara/">IKP Udara</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">F. Integration (Indeks D3TLH)</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../ikp/index_d3tlh/">Indeks D3TLH</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">G. Styling</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Simbology</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#purpose">Purpose</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#supported-themes">Supported Themes</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#1-jlh-jasa-lingkungan-hidup">1. JLH (Jasa Lingkungan Hidup)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#2-ikp-indeks-kemampuan-pemanfaatan">2. IKP (Indeks Kemampuan Pemanfaatan)</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#classification-categories">Classification Categories</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#standard-categories">Standard Categories</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#additional-category-for-ikp-lahan">Additional Category for IKP Lahan</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#required-inputs">Required Inputs</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#1-target-layer">1. Target Layer</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#2-theme">2. Theme</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#3-year-optional">3. Year (Optional)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#4-category-field-optional">4. Category Field (Optional)</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#output">Output</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#methodology">Methodology</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#automatic-field-detection">Automatic Field Detection</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#category-identification">Category Identification</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#symbology-application">Symbology Application</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#processing-workflow">Processing Workflow</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#output-interpretation">Output Interpretation</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#very-high-sangat-tinggi">Very High / Sangat Tinggi</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#high-tinggi">High / Tinggi</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#medium-sedang">Medium / Sedang</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#low-rendah">Low / Rendah</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#very-low-sangat-rendah">Very Low / Sangat Rendah</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#not-computed-tidak-dihitung">Not Computed / Tidak Dihitung</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#applications">Applications</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#notes">Notes</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#author">Author</a>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Otomatisasi D3TLH</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">G. Styling</li>
+      <li class="breadcrumb-item active">Simbology</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="jlh-ikp-standard-symbology">JLH &amp; IKP Standard Symbology</h1>
+<h2 id="overview">Overview</h2>
+<p>This module applies standardized cartographic symbology to <strong>JLH (Jasa Lingkungan Hidup)</strong> and <strong>IKP (Indeks Kemampuan Pemanfaatan)</strong> datasets directly within the selected layer.</p>
+<p>The algorithm automatically identifies the appropriate classification field and applies a categorized renderer using the standard D3TLH visualization scheme. No new layer is created; the symbology is applied directly to the existing layer.</p>
+<p>The resulting map follows the standard D3TLH classification and color convention, ensuring consistency across environmental assessments and reporting products.</p>
+<hr />
+<h2 id="purpose">Purpose</h2>
+<p>To standardize the visualization of JLH and IKP datasets by applying predefined categories and color schemes.</p>
+<p>The module provides:</p>
+<ul>
+<li>Consistent D3TLH map visualization</li>
+<li>Automatic category field detection</li>
+<li>Support for JLH and IKP outputs</li>
+<li>In-place symbology application</li>
+<li>Standardized environmental mapping outputs</li>
+</ul>
+<hr />
+<h2 id="supported-themes">Supported Themes</h2>
+<h3 id="1-jlh-jasa-lingkungan-hidup">1. JLH (Jasa Lingkungan Hidup)</h3>
+<p>Supports standardized symbology for ecosystem service outputs generated from D3TLH workflows.</p>
+<p>Examples include:</p>
+<ul>
+<li>Penyedia Air</li>
+<li>Penyedia Pangan</li>
+<li>Pengatur Tata Air</li>
+<li>Pengatur Iklim</li>
+<li>Habitat Biodiversitas</li>
+<li>Other JLH outputs</li>
+</ul>
+<h3 id="2-ikp-indeks-kemampuan-pemanfaatan">2. IKP (Indeks Kemampuan Pemanfaatan)</h3>
+<p>Supports standardized symbology for:</p>
+<ul>
+<li>IKP Air</li>
+<li>IKP Lahan</li>
+<li>IKP Kehati</li>
+<li>IKP Udara</li>
+<li>Other IKP-based outputs</li>
+</ul>
+<hr />
+<h2 id="classification-categories">Classification Categories</h2>
+<h3 id="standard-categories">Standard Categories</h3>
+<p>The following categories are supported:</p>
+<table>
+<thead>
+<tr>
+<th>Indonesian</th>
+<th>English</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sangat Rendah</td>
+<td>Very Low</td>
+</tr>
+<tr>
+<td>Rendah</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>Sedang</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>Tinggi</td>
+<td>High</td>
+</tr>
+<tr>
+<td>Sangat Tinggi</td>
+<td>Very High</td>
+</tr>
+</tbody>
+</table>
+<h3 id="additional-category-for-ikp-lahan">Additional Category for IKP Lahan</h3>
+<table>
+<thead>
+<tr>
+<th>Indonesian</th>
+<th>English</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tidak Dihitung</td>
+<td>Not Computed</td>
+</tr>
+</tbody>
+</table>
+<p>This category is used for areas excluded from the Land IKP calculation.</p>
+<hr />
+<h2 id="required-inputs">Required Inputs</h2>
+<h3 id="1-target-layer">1. Target Layer</h3>
+<p>A vector layer containing JLH or IKP classification fields.</p>
+<h3 id="2-theme">2. Theme</h3>
+<p>Select the appropriate visualization theme:</p>
+<ul>
+<li>JLH</li>
+<li>IKP</li>
+</ul>
+<h3 id="3-year-optional">3. Year (Optional)</h3>
+<p>Used for JLH outputs.</p>
+<p>The year is converted into a two-digit suffix to identify the classification field.</p>
+<p>Examples:</p>
+<table>
+<thead>
+<tr>
+<th>Year</th>
+<th>Field Suffix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td><code>_24</code></td>
+</tr>
+<tr>
+<td>2025</td>
+<td><code>_25</code></td>
+</tr>
+<tr>
+<td>2026</td>
+<td><code>_26</code></td>
+</tr>
+</tbody>
+</table>
+<p>Example field names:</p>
+<pre><code class="language-text">KELAS_PYA_24
+KELAS_PPK_25
+KELAS_PGA_26
+</code></pre>
+<h3 id="4-category-field-optional">4. Category Field (Optional)</h3>
+<p>Specify a category field manually to override automatic field detection.</p>
+<p>If left empty, the module attempts to detect the appropriate classification field automatically.</p>
+<hr />
+<h2 id="output">Output</h2>
+<p>The module does not create a new layer.</p>
+<p>Instead, it updates the symbology of the selected layer by applying:</p>
+<ul>
+<li>Categorized Renderer</li>
+<li>Standard D3TLH color scheme</li>
+<li>Standard category labels</li>
+</ul>
+<p>The output is:</p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Symbology</td>
+<td>Updated categorized renderer</td>
+</tr>
+<tr>
+<td>Layer</td>
+<td>Same input layer</td>
+</tr>
+<tr>
+<td>New Layer</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Attribute Changes</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="methodology">Methodology</h2>
+<h3 id="automatic-field-detection">Automatic Field Detection</h3>
+<p>The module searches for classification fields based on:</p>
+<ul>
+<li>Selected Theme</li>
+<li>Selected Year</li>
+<li>D3TLH naming conventions</li>
+</ul>
+<p>Examples:</p>
+<pre><code class="language-text">KELAS_PYA_24
+KELAS_PGA_24
+KELAS_PPK_24
+KELAS_IKP
+</code></pre>
+<hr />
+<h3 id="category-identification">Category Identification</h3>
+<p>The detected field is evaluated and categorized according to the standard D3TLH classes.</p>
+<p>Recognized values include:</p>
+<pre><code class="language-text">Sangat Rendah
+Rendah
+Sedang
+Tinggi
+Sangat Tinggi
+</code></pre>
+<p>and for Land IKP:</p>
+<pre><code class="language-text">Tidak Dihitung
+</code></pre>
+<hr />
+<h3 id="symbology-application">Symbology Application</h3>
+<p>A categorized renderer is created and applied directly to the selected layer.</p>
+<p>The renderer uses the official D3TLH category colors and labels.</p>
+<p>No attribute values are modified during the process.</p>
+<hr />
+<h2 id="processing-workflow">Processing Workflow</h2>
+<ol>
+<li>Select the target layer.</li>
+<li>
+<p>Select the visualization theme:</p>
+</li>
+<li>
+<p>JLH</p>
+</li>
+<li>IKP</li>
+<li>Optionally specify the analysis year.</li>
+<li>Optionally specify a category field name.</li>
+<li>The module detects the appropriate classification field.</li>
+<li>Categories are extracted from the field.</li>
+<li>Standard D3TLH symbology is generated.</li>
+<li>The categorized renderer is applied directly to the selected layer.</li>
+<li>The layer is refreshed in the QGIS interface.</li>
+</ol>
+<hr />
+<h2 id="output-interpretation">Output Interpretation</h2>
+<h3 id="very-high-sangat-tinggi">Very High / Sangat Tinggi</h3>
+<p>Represents the highest environmental capacity or ecosystem service value.</p>
+<h3 id="high-tinggi">High / Tinggi</h3>
+<p>Represents above-average environmental capacity or ecosystem service value.</p>
+<h3 id="medium-sedang">Medium / Sedang</h3>
+<p>Represents moderate environmental capacity or ecosystem service value.</p>
+<h3 id="low-rendah">Low / Rendah</h3>
+<p>Represents below-average environmental capacity or ecosystem service value.</p>
+<h3 id="very-low-sangat-rendah">Very Low / Sangat Rendah</h3>
+<p>Represents the lowest environmental capacity or ecosystem service value.</p>
+<h3 id="not-computed-tidak-dihitung">Not Computed / Tidak Dihitung</h3>
+<p>Represents areas excluded from the analysis or areas where calculations were not performed.</p>
+<hr />
+<h2 id="applications">Applications</h2>
+<p>The module can be used for:</p>
+<ul>
+<li>D3TLH map production</li>
+<li>JLH visualization</li>
+<li>IKP visualization</li>
+<li>Environmental reporting</li>
+<li>Spatial planning products</li>
+<li>Environmental carrying capacity assessment</li>
+<li>Standardized map preparation</li>
+<li>D3TLH workflow automation</li>
+</ul>
+<hr />
+<h2 id="notes">Notes</h2>
+<ul>
+<li>The selected layer must contain a valid classification field.</li>
+<li>The year parameter is only used for JLH themes.</li>
+<li>If the category field is specified manually, automatic detection is skipped.</li>
+<li>Existing symbology will be replaced.</li>
+<li>No attribute data are modified.</li>
+<li>No new layer is created.</li>
+<li>The module only updates layer visualization properties.</li>
+</ul>
+<hr />
+<h2 id="author">Author</h2>
+<p><strong>Yayasan Lokahita</strong></p>
+<ul>
+<li>Fadillah Azhar Deaudin Kurniawan</li>
+<li>Sitarani Safitri</li>
+<li>Dini Aprilia Norvyani</li>
+<li>Suchi Rahmadani</li>
+<li>Fariz Rizaldy Wibowo</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../ikp/index_d3tlh/" class="btn btn-neutral float-left" title="Indeks D3TLH"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../ikp/index_d3tlh/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

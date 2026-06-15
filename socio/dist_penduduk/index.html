@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Model Distribusi Penduduk - Otomatisasi D3TLH</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Model Distribusi Penduduk";
+        var mkdocs_page_input_path = "socio\\dist_penduduk.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Otomatisasi D3TLH
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">A. Utilities</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../mca/">MCA</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../grid/">SGSRI</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">B. Preprocessing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../class_lckws/">Klasifikasi PL & Hutan KLHK</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../class_road/">Klasifikasi Jalan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../std_schema/">Standarisasi Skema Data</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../chk_quality/">Perbaikan Data</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../add_islandatrbt/">Penambahan Atribut Pulau</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">C. JLH</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../jlh/jlh_phk/">JLH Pendukung Habitat dan Kehati</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../jlh/jlh_pku/">JLH Pengatur Kualitas Udara</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../jlh/jlh_pga/">JLH Pengaturan Air</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../jlh/jlh_pya/">JLH Penyedia Air</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../jlh/jlh_pgn/">JLH Penyedia Pangan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../jlh/jlh_ppk/">JLH Penyerapan dan Penyimpanan Karbon</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">D. Demo and Eco Model</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Model Distribusi Penduduk</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#purpose">Purpose</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#required-inputs">Required Inputs</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#1-administrative-boundaries-layer">1. Administrative Boundaries Layer</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#2-grid-layer">2. Grid Layer</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#3-land-cover-layer">3. Land Cover Layer</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#4-road-network-layer">4. Road Network Layer</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#output">Output</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#methodology">Methodology</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#land-cover-weight-wplyy">Land Cover Weight (WPLYY)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#road-network-weight-wjlnyy">Road Network Weight (WJLNYY)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#combined-grid-weight">Combined Grid Weight</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#administrative-weight">Administrative Weight</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#population-allocation">Population Allocation</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#processing-workflow">Processing Workflow</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#output-interpretation">Output Interpretation</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#high-popgridyy-values">High POPGRIDYY Values</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#low-popgridyy-values">Low POPGRIDYY Values</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#applications">Applications</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#notes">Notes</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#author">Author</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../eco_footprint/">Model Jejak Ekologis</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">E. IKP</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ikp/ikp_air/">IKP Air</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ikp/ikp_kehati/">IKP Kehati</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ikp/ikp_lahan/">IKP Lahan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ikp/ikp_udara/">IKP Udara</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">F. Integration (Indeks D3TLH)</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ikp/index_d3tlh/">Indeks D3TLH</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">G. Styling</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../simbology/">Simbology</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Otomatisasi D3TLH</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">D. Demo and Eco Model</li>
+      <li class="breadcrumb-item active">Model Distribusi Penduduk</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="population-distribution-model">Population Distribution Model</h1>
+<h2 id="overview">Overview</h2>
+<p>This module models population distribution using scores and weights derived from land cover and road network parameters, producing a gridded population distribution dataset.</p>
+<p>The methodology allocates population counts from administrative units into grid cells based on the relative influence of land cover characteristics and road accessibility. The resulting grid-based population model can be used for environmental carrying capacity assessments, ecosystem service analysis, and spatial planning.</p>
+<hr />
+<h2 id="purpose">Purpose</h2>
+<p>To distribute population data from administrative units into spatial grid cells using weighted parameters derived from:</p>
+<ul>
+<li>Land Cover (<code>PL</code>)</li>
+<li>Road Network (<code>KJLN</code>)</li>
+<li>Administrative Boundaries</li>
+<li>Population Statistics</li>
+</ul>
+<p>This approach generates a more spatially explicit representation of population distribution than conventional administrative-level datasets.</p>
+<hr />
+<h2 id="required-inputs">Required Inputs</h2>
+<h3 id="1-administrative-boundaries-layer">1. Administrative Boundaries Layer</h3>
+<p>The administrative boundary layer must contain standardized administrative codes and population data.</p>
+<p>Required fields:</p>
+<ul>
+<li><code>WADMPR</code> — Province Code</li>
+<li><code>WADMKK</code> — Regency/Municipality Code</li>
+<li><code>WADMKC</code> — District Code</li>
+<li><code>WADMKD</code> — Village Code</li>
+<li><code>POPMYY</code> — Population field (e.g., <code>POPM24</code> for year 2024)</li>
+</ul>
+<h3 id="2-grid-layer">2. Grid Layer</h3>
+<p>Grid layer generated using the Utility module.</p>
+<p>Required field:</p>
+<ul>
+<li><code>ID</code></li>
+</ul>
+<h3 id="3-land-cover-layer">3. Land Cover Layer</h3>
+<p>Vector land cover dataset containing:</p>
+<ul>
+<li><code>PL</code></li>
+</ul>
+<h3 id="4-road-network-layer">4. Road Network Layer</h3>
+<p>Vector road network dataset containing:</p>
+<ul>
+<li><code>KJLN</code></li>
+</ul>
+<hr />
+<h2 id="output">Output</h2>
+<p>The algorithm produces a <strong>Population Distribution Model</strong> in grid format.</p>
+<p>Each grid cell contains:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ID</code></td>
+<td>Grid identifier</td>
+</tr>
+<tr>
+<td><code>WADM**</code></td>
+<td>Administrative code</td>
+</tr>
+<tr>
+<td><code>POPMYY</code></td>
+<td>Population of administrative unit</td>
+</tr>
+<tr>
+<td><code>WPLYY</code></td>
+<td>Land cover weight</td>
+</tr>
+<tr>
+<td><code>WJLNYY</code></td>
+<td>Road network weight</td>
+</tr>
+<tr>
+<td><code>WGRIDYY</code></td>
+<td>Combined grid weight</td>
+</tr>
+<tr>
+<td><code>WADMYY</code></td>
+<td>Total administrative weight</td>
+</tr>
+<tr>
+<td><code>POPGRIDYY</code></td>
+<td>Distributed population value</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="methodology">Methodology</h2>
+<p>The model uses a weighted allocation approach based on land cover and road network characteristics.</p>
+<h3 id="land-cover-weight-wplyy">Land Cover Weight (WPLYY)</h3>
+<p>The grid is intersected with the land cover layer.</p>
+<p>Land cover classes are assigned predefined scores and weights, producing:</p>
+<pre><code class="language-text">WPLYY
+</code></pre>
+<h3 id="road-network-weight-wjlnyy">Road Network Weight (WJLNYY)</h3>
+<p>The grid is intersected with the road network layer.</p>
+<p>Road classes are assigned predefined scores and weights, producing:</p>
+<pre><code class="language-text">WJLNYY
+</code></pre>
+<h3 id="combined-grid-weight">Combined Grid Weight</h3>
+<p>The total grid weight is calculated as:</p>
+<pre><code class="language-text">WGRIDYY = WPLYY + WJLNYY
+</code></pre>
+<h3 id="administrative-weight">Administrative Weight</h3>
+<p>For each administrative unit:</p>
+<pre><code class="language-text">WADMYY = Σ(WGRIDYY)
+</code></pre>
+<h3 id="population-allocation">Population Allocation</h3>
+<p>Population is distributed proportionally according to each grid cell's weight:</p>
+<pre><code class="language-text">POPGRIDYY = floor((WGRIDYY / WADMYY) × POPMYY)
+</code></pre>
+<hr />
+<h2 id="processing-workflow">Processing Workflow</h2>
+<ol>
+<li>Harmonize the coordinate reference system (CRS) of all input datasets.</li>
+<li>Repair invalid geometries and create spatial indexes.</li>
+<li>
+<p>Standardize administrative boundary fields to:</p>
+</li>
+<li>
+<p><code>WADMPR</code></p>
+</li>
+<li><code>WADMKK</code></li>
+<li><code>WADMKC</code></li>
+<li><code>WADMKD</code></li>
+<li><code>POPMYY</code></li>
+<li>Transfer administrative attributes (<code>WADM**</code>) into the Grid layer using the Maximum Combined Area (MCA) approach.</li>
+<li>Join population values (<code>POPMYY</code>) from administrative boundaries into the Grid layer.</li>
+<li>
+<p>Intersect the Grid layer with the Land Cover layer and calculate:</p>
+</li>
+<li>
+<p><code>WPLYY</code></p>
+</li>
+<li>
+<p>Intersect the Grid layer with the Road Network layer and calculate:</p>
+</li>
+<li>
+<p><code>WJLNYY</code></p>
+</li>
+<li>
+<p>Calculate:</p>
+</li>
+<li>
+<p><code>WGRIDYY</code></p>
+</li>
+<li><code>WADMYY</code></li>
+<li><code>POPGRIDYY</code></li>
+<li>Standardize output field names.</li>
+<li>Generate the final Population Distribution Model.</li>
+</ol>
+<hr />
+<h2 id="output-interpretation">Output Interpretation</h2>
+<h3 id="high-popgridyy-values">High POPGRIDYY Values</h3>
+<p>Indicate grid cells with:</p>
+<ul>
+<li>Higher accessibility</li>
+<li>More intensive land use</li>
+<li>Greater likelihood of population concentration</li>
+</ul>
+<h3 id="low-popgridyy-values">Low POPGRIDYY Values</h3>
+<p>Indicate grid cells with:</p>
+<ul>
+<li>Limited accessibility</li>
+<li>Sparse land use</li>
+<li>Lower population density</li>
+</ul>
+<hr />
+<h2 id="applications">Applications</h2>
+<p>The resulting population distribution model can be used for:</p>
+<ul>
+<li>Environmental Carrying Capacity (DDLH) analysis</li>
+<li>Ecosystem Service assessment</li>
+<li>Spatial planning</li>
+<li>Infrastructure planning</li>
+<li>Disaster risk assessment</li>
+<li>Population exposure analysis</li>
+<li>Environmental quality assessment</li>
+<li>D3TLH analysis workflows</li>
+</ul>
+<hr />
+<h2 id="notes">Notes</h2>
+<ul>
+<li>All input layers should use the same CRS.</li>
+<li>Administrative fields must follow the standardized naming convention.</li>
+<li>Population fields should follow the <code>POPMYY</code> format.</li>
+<li>The quality of the model depends heavily on the quality of land cover, road network, and population datasets.</li>
+<li>Grid resolution influences the spatial detail of the final population distribution model.</li>
+</ul>
+<hr />
+<h2 id="author">Author</h2>
+<p><strong>Yayasan Lokahita</strong></p>
+<ul>
+<li>Fadillah Azhar Deaudin Kurniawan</li>
+<li>Sitarani Safitri</li>
+<li>Dini Aprilia Norvyani</li>
+<li>Suchi Rahmadani</li>
+<li>Fariz Rizaldy Wibowo</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../jlh/jlh_ppk/" class="btn btn-neutral float-left" title="JLH Penyerapan dan Penyimpanan Karbon"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../eco_footprint/" class="btn btn-neutral float-right" title="Model Jejak Ekologis">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../../jlh/jlh_ppk/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../eco_footprint/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

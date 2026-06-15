@@ -5,15 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>Klasifikasi PL & Hutan KLHK - Otomatisasi D3TLH</title>
+    <title>Perbaikan Data - Otomatisasi D3TLH</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Klasifikasi PL \u0026 Hutan KLHK";
-        var mkdocs_page_input_path = "class_lckws.md";
+        var mkdocs_page_name = "Perbaikan Data";
+        var mkdocs_page_input_path = "chk_quality.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -52,39 +52,53 @@
               </ul>
               <p class="caption"><span class="caption-text">B. Preprocessing</span></p>
               <ul class="current">
-                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Klasifikasi PL & Hutan KLHK</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../class_lckws/">Klasifikasi PL & Hutan KLHK</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../class_road/">Klasifikasi Jalan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../std_schema/">Standarisasi Skema Data</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Perbaikan Data</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#purpose">Purpose</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#processing-workflow">Processing Workflow</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#input-parameters">Input Parameters</a>
         <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#input-layer">Input Layer</a>
+    <li class="toctree-l3"><a class="reference internal" href="#penutup-lahan">Penutup Lahan</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#classification-type">Classification Type</a>
+    <li class="toctree-l3"><a class="reference internal" href="#ekoregion">Ekoregion</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#id-field">ID Field</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#treat-id-as-text">Treat ID as Text</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#match-numeric-ids-with-or-without-leading-zeros">Match Numeric IDs with or without Leading Zeros</a>
+    <li class="toctree-l3"><a class="reference internal" href="#kee-optional">KEE (Optional)</a>
     </li>
         </ul>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#output">Output</a>
+    <li class="toctree-l2"><a class="reference internal" href="#processing-method">Processing Method</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#output-layers">Output Layers</a>
         <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#penutup-lahan-output">Penutup Lahan Output</a>
+    <li class="toctree-l3"><a class="reference internal" href="#penutup-lahan-fixed">Penutup Lahan Fixed</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#kawasan-hutan-output">Kawasan Hutan Output</a>
+    <li class="toctree-l3"><a class="reference internal" href="#ekoregion-fixed">Ekoregion Fixed</a>
     </li>
         </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#benefits">Benefits</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#notes">Notes</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#common-issues">Common Issues</a>
         <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#id-field-not-found">ID Field Not Found</a>
+    <li class="toctree-l3"><a class="reference internal" href="#invalid-geometry-errors-in-subsequent-processing">Invalid Geometry Errors in Subsequent Processing</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#empty-output-layer">Empty Output Layer</a>
     </li>
         </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#example-workflow">Example Workflow</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#author">Author</a>
         <ul>
@@ -93,12 +107,6 @@
         </ul>
     </li>
     </ul>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../class_road/">Klasifikasi Jalan</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../std_schema/">Standarisasi Skema Data</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../chk_quality/">Perbaikan Data</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../add_islandatrbt/">Penambahan Atribut Pulau</a>
                   </li>
@@ -161,7 +169,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
           <li class="breadcrumb-item">B. Preprocessing</li>
-      <li class="breadcrumb-item active">Klasifikasi PL & Hutan KLHK</li>
+      <li class="breadcrumb-item active">Perbaikan Data</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -170,129 +178,169 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="klasifikasi-penutupan-lahan-kawasan-hutan-klhk-ri">Klasifikasi Penutupan Lahan &amp; Kawasan Hutan (KLHK RI)</h1>
+                <h1 id="perbaikan-kualitas-data">Perbaikan Kualitas Data</h1>
 <h2 id="overview">Overview</h2>
-<p>This algorithm classifies features into <strong>Land Cover (PL)</strong> or <strong>Forest Area (Kawasan Hutan)</strong> classes using internal lookup tables bundled with the plugin.</p>
-<p>No external CSV input is required from the user. The algorithm automatically loads the appropriate classification database and assigns classification labels based on the selected identifier field.</p>
+<p>This module performs basic data quality validation by repairing invalid geometries in the input layers before they are used in subsequent D3TLH processing workflows.</p>
+<p>The algorithm applies the QGIS <strong>Fix Geometries</strong> tool to the <strong>Land Cover (Penutup Lahan)</strong> and <strong>Ecoregion (Ekoregion)</strong> layers and produces cleaned outputs that are ready for spatial analysis.</p>
+<hr />
+<h2 id="purpose">Purpose</h2>
+<p>Spatial datasets often contain geometry errors such as:</p>
+<ul>
+<li>Self-intersections</li>
+<li>Duplicate vertices</li>
+<li>Invalid polygon rings</li>
+<li>Geometry inconsistencies</li>
+</ul>
+<p>These issues may cause failures or inaccurate results in overlay, intersection, dissolve, and other spatial operations.</p>
+<p>This algorithm automatically repairs such issues using the QGIS geometry validation engine.</p>
 <hr />
 <h2 id="processing-workflow">Processing Workflow</h2>
 <ol>
-<li>Select the input layer.</li>
-<li>Choose the classification type.</li>
-<li>Select the field containing the classification code.</li>
-<li>Load the corresponding internal lookup table.</li>
-<li>Match input values against the lookup table.</li>
-<li>Create a new classification field.</li>
-<li>Generate the output layer.</li>
+<li>Select the <strong>Land Cover (Penutup Lahan)</strong> layer.</li>
+<li>Select the <strong>Ecoregion (Ekoregion)</strong> layer.</li>
+<li>Optionally provide a <strong>KEE</strong> layer.</li>
+<li>Run the algorithm.</li>
+<li>The algorithm executes the <strong>Fix Geometries</strong> process on:</li>
+<li>Land Cover layer</li>
+<li>Ecoregion layer</li>
+<li>New layers with corrected geometries are generated.</li>
 </ol>
 <hr />
 <h2 id="input-parameters">Input Parameters</h2>
-<h3 id="input-layer">Input Layer</h3>
-<p>Vector layer containing the classification identifier.</p>
+<h3 id="penutup-lahan">Penutup Lahan</h3>
+<p>Land Cover layer that will undergo geometry validation and repair.</p>
 <p>Supported geometry types:</p>
 <ul>
 <li>Point</li>
 <li>Line</li>
 <li>Polygon</li>
 </ul>
-<h3 id="classification-type">Classification Type</h3>
-<p>Choose the classification scheme to apply.</p>
-<table>
-<thead>
-<tr>
-<th>Option</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Penutup Lahan (PL)</td>
-<td>Land Cover classification</td>
-</tr>
-<tr>
-<td>Kawasan Hutan (kwshutan)</td>
-<td>Forest Area classification</td>
-</tr>
-</tbody>
-</table>
-<h3 id="id-field">ID Field</h3>
-<p>Field containing the classification code to be matched against the lookup table.</p>
-<p>Examples:</p>
-<ul>
-<li><code>PL2024_ID</code></li>
-<li><code>fungsikws</code></li>
-<li><code>CODE</code></li>
-</ul>
-<h3 id="treat-id-as-text">Treat ID as Text</h3>
-<p>Preserves the original formatting of identifier values, including leading zeros.</p>
-<p><strong>Default:</strong> Enabled</p>
-<h3 id="match-numeric-ids-with-or-without-leading-zeros">Match Numeric IDs with or without Leading Zeros</h3>
-<p>Allows matching of equivalent numeric values regardless of formatting.</p>
-<p>Examples:</p>
-<table>
-<thead>
-<tr>
-<th>Input Value</th>
-<th>Lookup Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>1</code></td>
-<td><code>001</code></td>
-</tr>
-<tr>
-<td><code>001</code></td>
-<td><code>1</code></td>
-</tr>
-<tr>
-<td><code>0005</code></td>
-<td><code>5</code></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Default:</strong> Enabled</p>
 <hr />
-<h2 id="output">Output</h2>
-<p>The output layer contains all original attributes plus an additional classification field.</p>
-<h3 id="penutup-lahan-output">Penutup Lahan Output</h3>
+<h3 id="ekoregion">Ekoregion</h3>
+<p>Ecoregion layer that will undergo geometry validation and repair.</p>
+<p>Supported geometry types:</p>
+<ul>
+<li>Point</li>
+<li>Line</li>
+<li>Polygon</li>
+</ul>
+<hr />
+<h3 id="kee-optional">KEE (Optional)</h3>
+<p>Key Ecological Ecosystem (KEE) layer.</p>
+<p>This parameter is currently optional and is not modified by the algorithm.</p>
+<hr />
+<h2 id="processing-method">Processing Method</h2>
+<p>The algorithm internally runs the QGIS processing tool:</p>
+<pre><code class="language-text">qgis:fixgeometries
+</code></pre>
+<p>on both required input layers.</p>
+<p>The resulting layers contain repaired geometries while preserving:</p>
+<ul>
+<li>Original attributes</li>
+<li>Coordinate Reference System (CRS)</li>
+<li>Geometry type</li>
+</ul>
+<hr />
+<h2 id="output-layers">Output Layers</h2>
+<h3 id="penutup-lahan-fixed">Penutup Lahan Fixed</h3>
+<p>A copy of the Land Cover layer with repaired geometries.</p>
 <table>
 <thead>
 <tr>
-<th>Field</th>
+<th>Property</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>PL</td>
-<td>Land cover classification</td>
+<td>Geometry</td>
+<td>Corrected</td>
+</tr>
+<tr>
+<td>Attributes</td>
+<td>Preserved</td>
+</tr>
+<tr>
+<td>CRS</td>
+<td>Preserved</td>
 </tr>
 </tbody>
 </table>
-<h3 id="kawasan-hutan-output">Kawasan Hutan Output</h3>
+<hr />
+<h3 id="ekoregion-fixed">Ekoregion Fixed</h3>
+<p>A copy of the Ecoregion layer with repaired geometries.</p>
 <table>
 <thead>
 <tr>
-<th>Field</th>
+<th>Property</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>kwshutan</td>
-<td>Forest area classification</td>
+<td>Geometry</td>
+<td>Corrected</td>
+</tr>
+<tr>
+<td>Attributes</td>
+<td>Preserved</td>
+</tr>
+<tr>
+<td>CRS</td>
+<td>Preserved</td>
 </tr>
 </tbody>
 </table>
+<hr />
+<h2 id="benefits">Benefits</h2>
+<p>Running this validation step before further processing helps to:</p>
+<ul>
+<li>Prevent topology-related processing failures</li>
+<li>Improve overlay and intersection accuracy</li>
+<li>Ensure compatibility with subsequent D3TLH workflows</li>
+<li>Reduce errors during spatial analysis</li>
+</ul>
+<hr />
+<h2 id="notes">Notes</h2>
+<ul>
+<li>The original input layers are not modified.</li>
+<li>Output layers are written as new datasets.</li>
+<li>Attribute tables remain unchanged.</li>
+<li>Geometry repair follows the implementation of the QGIS <strong>Fix Geometries</strong> tool.</li>
+<li>It is recommended to run this tool before performing overlay or intersection operations.</li>
+</ul>
 <hr />
 <h2 id="common-issues">Common Issues</h2>
-<h3 id="id-field-not-found">ID Field Not Found</h3>
-<p><strong>Message</strong></p>
-<pre><code class="language-text">ID field not found in input layer.
+<h3 id="invalid-geometry-errors-in-subsequent-processing">Invalid Geometry Errors in Subsequent Processing</h3>
+<p>If spatial operations fail due to geometry errors, rerun this tool and use the corrected output layers.</p>
+<hr />
+<h3 id="empty-output-layer">Empty Output Layer</h3>
+<p>Possible causes:</p>
+<ul>
+<li>Invalid input source</li>
+<li>Corrupted geometry dataset</li>
+<li>Unsupported geometry structure</li>
+</ul>
+<p>Verify the integrity of the source dataset before processing.</p>
+<hr />
+<h2 id="example-workflow">Example Workflow</h2>
+<pre><code class="language-text">Raw Land Cover Layer
+        │
+        ▼
+ Fix Geometries
+        │
+        ▼
+Land Cover Fixed
 </code></pre>
-<p><strong>Solution</strong></p>
-<p>Verify that the selected identifier field exists in the input dataset.</p>
+<pre><code class="language-text">Raw Ecoregion Layer
+        │
+        ▼
+ Fix Geometries
+        │
+        ▼
+Ecoregion Fixed
+</code></pre>
+<p>The resulting layers can then be used safely in clipping, intersection, dissolve, and other D3TLH processing modules.</p>
 <hr />
 <h2 id="author">Author</h2>
 <p><strong>Yayasan Lokahita</strong></p>
@@ -304,13 +352,14 @@
 <li>Fariz Rizaldy Wibowo</li>
 </ul>
 <h3 id="supported-by">Supported By</h3>
-<p><strong>Kementerian Lingkungan Hidup Republik Indonesia</strong></p>
+<p><strong>Direktorat PDLKWS – Deputi TLSDAB</strong><br />
+<strong>Kementerian Lingkungan Hidup / BPLH Republik Indonesia</strong></p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../grid/" class="btn btn-neutral float-left" title="SGSRI"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../class_road/" class="btn btn-neutral float-right" title="Klasifikasi Jalan">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../std_schema/" class="btn btn-neutral float-left" title="Standarisasi Skema Data"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../add_islandatrbt/" class="btn btn-neutral float-right" title="Penambahan Atribut Pulau">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -333,10 +382,10 @@
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../grid/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../std_schema/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../class_road/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../add_islandatrbt/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

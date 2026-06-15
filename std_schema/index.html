@@ -5,15 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>Klasifikasi PL & Hutan KLHK - Otomatisasi D3TLH</title>
+    <title>Standarisasi Skema Data - Otomatisasi D3TLH</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Klasifikasi PL \u0026 Hutan KLHK";
-        var mkdocs_page_input_path = "class_lckws.md";
+        var mkdocs_page_name = "Standarisasi Skema Data";
+        var mkdocs_page_input_path = "std_schema.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -52,9 +52,15 @@
               </ul>
               <p class="caption"><span class="caption-text">B. Preprocessing</span></p>
               <ul class="current">
-                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Klasifikasi PL & Hutan KLHK</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../class_lckws/">Klasifikasi PL & Hutan KLHK</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../class_road/">Klasifikasi Jalan</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Standarisasi Skema Data</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#standardized-fields">Standardized Fields</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#processing-workflow">Processing Workflow</a>
     </li>
@@ -62,29 +68,41 @@
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#input-layer">Input Layer</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#classification-type">Classification Type</a>
+    <li class="toctree-l3"><a class="reference internal" href="#source-field-for-land-cover-lc">Source Field for Land Cover → LC</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#id-field">ID Field</a>
+    <li class="toctree-l3"><a class="reference internal" href="#source-field-for-forest-area-kwshutan">Source Field for Forest Area → kwshutan</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#treat-id-as-text">Treat ID as Text</a>
+    <li class="toctree-l3"><a class="reference internal" href="#source-field-for-kba-kba_250">Source Field for KBA → KBA_250</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#match-numeric-ids-with-or-without-leading-zeros">Match Numeric IDs with or without Leading Zeros</a>
+    <li class="toctree-l3"><a class="reference internal" href="#source-field-for-kva-kva_250">Source Field for KVA → KVA_250</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#overwrite-existing-standardized-fields">Overwrite Existing Standardized Fields</a>
     </li>
         </ul>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#output">Output</a>
+    <li class="toctree-l2"><a class="reference internal" href="#output-schema">Output Schema</a>
         <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#penutup-lahan-output">Penutup Lahan Output</a>
+    <li class="toctree-l3"><a class="reference internal" href="#lc">LC</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#kawasan-hutan-output">Kawasan Hutan Output</a>
+    <li class="toctree-l3"><a class="reference internal" href="#kwshutan">kwshutan</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#kba_250">KBA_250</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#kva_250">KVA_250</a>
     </li>
         </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#notes">Notes</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#common-issues">Common Issues</a>
         <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#id-field-not-found">ID Field Not Found</a>
+    <li class="toctree-l3"><a class="reference internal" href="#no-source-fields-selected">No Source Fields Selected</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#standardized-field-already-exists">Standardized Field Already Exists</a>
     </li>
         </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#example-mapping">Example Mapping</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#author">Author</a>
         <ul>
@@ -93,10 +111,6 @@
         </ul>
     </li>
     </ul>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../class_road/">Klasifikasi Jalan</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../std_schema/">Standarisasi Skema Data</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../chk_quality/">Perbaikan Data</a>
                   </li>
@@ -161,7 +175,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
           <li class="breadcrumb-item">B. Preprocessing</li>
-      <li class="breadcrumb-item active">Klasifikasi PL & Hutan KLHK</li>
+      <li class="breadcrumb-item active">Standarisasi Skema Data</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -170,33 +184,88 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="klasifikasi-penutupan-lahan-kawasan-hutan-klhk-ri">Klasifikasi Penutupan Lahan &amp; Kawasan Hutan (KLHK RI)</h1>
+                <h1 id="standarisasi-skema-data">Standarisasi Skema Data</h1>
 <h2 id="overview">Overview</h2>
-<p>This algorithm classifies features into <strong>Land Cover (PL)</strong> or <strong>Forest Area (Kawasan Hutan)</strong> classes using internal lookup tables bundled with the plugin.</p>
-<p>No external CSV input is required from the user. The algorithm automatically loads the appropriate classification database and assigns classification labels based on the selected identifier field.</p>
+<p>This module standardizes key thematic attributes used in D3TLH processing workflows by creating a consistent schema across datasets.</p>
+<p>The algorithm allows users to map existing fields from an input layer to a predefined set of standardized fields. The names and data types of these fields are fixed according to the D3TLH standard.</p>
+<p>All standardized fields are stored as <strong>String</strong> data types.</p>
+<hr />
+<h2 id="standardized-fields">Standardized Fields</h2>
+<p>The following fields are supported:</p>
+<table>
+<thead>
+<tr>
+<th>Standard Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LC</code></td>
+<td>Land Cover (Penutup Lahan)</td>
+</tr>
+<tr>
+<td><code>kwshutan</code></td>
+<td>Forest Area (Kawasan Hutan)</td>
+</tr>
+<tr>
+<td><code>KBA_250</code></td>
+<td>Landform Characteristic of the Ecoregion (Karakteristik Bentang Alam)</td>
+</tr>
+<tr>
+<td><code>KVA_250</code></td>
+<td>Natural Vegetation Characteristic of the Ecoregion (Karakteristik Vegetasi Alami)</td>
+</tr>
+</tbody>
+</table>
 <hr />
 <h2 id="processing-workflow">Processing Workflow</h2>
 <ol>
 <li>Select the input layer.</li>
-<li>Choose the classification type.</li>
-<li>Select the field containing the classification code.</li>
-<li>Load the corresponding internal lookup table.</li>
-<li>Match input values against the lookup table.</li>
-<li>Create a new classification field.</li>
-<li>Generate the output layer.</li>
+<li>Choose one or more source fields to map.</li>
+<li>Assign source fields to the desired standardized fields.</li>
+<li>Choose whether existing standardized fields should be overwritten.</li>
+<li>Run the algorithm.</li>
+<li>A new layer is created containing the standardized schema.</li>
 </ol>
 <hr />
 <h2 id="input-parameters">Input Parameters</h2>
 <h3 id="input-layer">Input Layer</h3>
-<p>Vector layer containing the classification identifier.</p>
+<p>Vector layer containing the source attributes.</p>
 <p>Supported geometry types:</p>
 <ul>
 <li>Point</li>
 <li>Line</li>
 <li>Polygon</li>
 </ul>
-<h3 id="classification-type">Classification Type</h3>
-<p>Choose the classification scheme to apply.</p>
+<hr />
+<h3 id="source-field-for-land-cover-lc">Source Field for Land Cover → LC</h3>
+<p>Select the field containing land cover classifications.</p>
+<p>The selected values will be copied into:</p>
+<pre><code class="language-text">LC
+</code></pre>
+<hr />
+<h3 id="source-field-for-forest-area-kwshutan">Source Field for Forest Area → kwshutan</h3>
+<p>Select the field containing forest area classifications.</p>
+<p>The selected values will be copied into:</p>
+<pre><code class="language-text">kwshutan
+</code></pre>
+<hr />
+<h3 id="source-field-for-kba-kba_250">Source Field for KBA → KBA_250</h3>
+<p>Select the field containing landform characteristic values.</p>
+<p>The selected values will be copied into:</p>
+<pre><code class="language-text">KBA_250
+</code></pre>
+<hr />
+<h3 id="source-field-for-kva-kva_250">Source Field for KVA → KVA_250</h3>
+<p>Select the field containing natural vegetation characteristic values.</p>
+<p>The selected values will be copied into:</p>
+<pre><code class="language-text">KVA_250
+</code></pre>
+<hr />
+<h3 id="overwrite-existing-standardized-fields">Overwrite Existing Standardized Fields</h3>
+<p>When enabled, existing standardized fields will be updated with values from the selected source fields.</p>
+<p><strong>Default:</strong> Enabled</p>
 <table>
 <thead>
 <tr>
@@ -206,93 +275,153 @@
 </thead>
 <tbody>
 <tr>
-<td>Penutup Lahan (PL)</td>
-<td>Land Cover classification</td>
+<td>Enabled</td>
+<td>Existing values in standardized fields are replaced</td>
 </tr>
 <tr>
-<td>Kawasan Hutan (kwshutan)</td>
-<td>Forest Area classification</td>
+<td>Disabled</td>
+<td>Processing stops if a standardized field already exists</td>
 </tr>
 </tbody>
 </table>
-<h3 id="id-field">ID Field</h3>
-<p>Field containing the classification code to be matched against the lookup table.</p>
-<p>Examples:</p>
-<ul>
-<li><code>PL2024_ID</code></li>
-<li><code>fungsikws</code></li>
-<li><code>CODE</code></li>
-</ul>
-<h3 id="treat-id-as-text">Treat ID as Text</h3>
-<p>Preserves the original formatting of identifier values, including leading zeros.</p>
-<p><strong>Default:</strong> Enabled</p>
-<h3 id="match-numeric-ids-with-or-without-leading-zeros">Match Numeric IDs with or without Leading Zeros</h3>
-<p>Allows matching of equivalent numeric values regardless of formatting.</p>
-<p>Examples:</p>
-<table>
-<thead>
-<tr>
-<th>Input Value</th>
-<th>Lookup Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>1</code></td>
-<td><code>001</code></td>
-</tr>
-<tr>
-<td><code>001</code></td>
-<td><code>1</code></td>
-</tr>
-<tr>
-<td><code>0005</code></td>
-<td><code>5</code></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Default:</strong> Enabled</p>
 <hr />
-<h2 id="output">Output</h2>
-<p>The output layer contains all original attributes plus an additional classification field.</p>
-<h3 id="penutup-lahan-output">Penutup Lahan Output</h3>
+<h2 id="output-schema">Output Schema</h2>
+<p>The output layer contains all original attributes plus the selected standardized fields.</p>
+<h3 id="lc">LC</h3>
 <table>
 <thead>
 <tr>
-<th>Field</th>
+<th>Attribute</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>PL</td>
-<td>Land cover classification</td>
+<td>LC</td>
+<td>Land Cover classification</td>
 </tr>
 </tbody>
 </table>
-<h3 id="kawasan-hutan-output">Kawasan Hutan Output</h3>
+<h3 id="kwshutan">kwshutan</h3>
 <table>
 <thead>
 <tr>
-<th>Field</th>
+<th>Attribute</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>kwshutan</td>
-<td>Forest area classification</td>
+<td>Forest Area classification</td>
 </tr>
 </tbody>
 </table>
+<h3 id="kba_250">KBA_250</h3>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KBA_250</td>
+<td>Landform Characteristic of the Ecoregion</td>
+</tr>
+</tbody>
+</table>
+<h3 id="kva_250">KVA_250</h3>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KVA_250</td>
+<td>Natural Vegetation Characteristic of the Ecoregion</td>
+</tr>
+</tbody>
+</table>
+<p>All standardized fields are stored as <strong>String</strong> values.</p>
+<hr />
+<h2 id="notes">Notes</h2>
+<ul>
+<li>At least one source field must be selected.</li>
+<li>Original attributes are preserved.</li>
+<li>The input layer is not modified.</li>
+<li>Output is written to a new layer.</li>
+<li>Standardized field names cannot be changed.</li>
+<li>All output values are converted to text format.</li>
+</ul>
 <hr />
 <h2 id="common-issues">Common Issues</h2>
-<h3 id="id-field-not-found">ID Field Not Found</h3>
+<h3 id="no-source-fields-selected">No Source Fields Selected</h3>
 <p><strong>Message</strong></p>
-<pre><code class="language-text">ID field not found in input layer.
+<pre><code class="language-text">Select at least one source field (LC/kwshutan/KBA_250/KVA_250).
 </code></pre>
 <p><strong>Solution</strong></p>
-<p>Verify that the selected identifier field exists in the input dataset.</p>
+<p>Choose at least one source field before running the algorithm.</p>
+<hr />
+<h3 id="standardized-field-already-exists">Standardized Field Already Exists</h3>
+<p><strong>Message</strong></p>
+<pre><code class="language-text">Field '&lt;field_name&gt;' already exists.
+</code></pre>
+<p><strong>Solution</strong></p>
+<p>Either:</p>
+<ul>
+<li>Enable <strong>Overwrite Existing Standardized Fields</strong>, or</li>
+<li>Remove/rename the existing field before processing.</li>
+</ul>
+<hr />
+<h2 id="example-mapping">Example Mapping</h2>
+<table>
+<thead>
+<tr>
+<th>Source Field</th>
+<th>Standardized Field</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PL_2024</td>
+<td>LC</td>
+</tr>
+<tr>
+<td>FUNGSI_KWS</td>
+<td>kwshutan</td>
+</tr>
+<tr>
+<td>EKOREGION_KBA</td>
+<td>KBA_250</td>
+</tr>
+<tr>
+<td>EKOREGION_KVA</td>
+<td>KVA_250</td>
+</tr>
+</tbody>
+</table>
+<p>Result:</p>
+<pre><code class="language-text">Input Layer
+├── PL_2024
+├── FUNGSI_KWS
+├── EKOREGION_KBA
+└── EKOREGION_KVA
+
+Output Layer
+├── PL_2024
+├── FUNGSI_KWS
+├── EKOREGION_KBA
+├── EKOREGION_KVA
+├── LC
+├── kwshutan
+├── KBA_250
+└── KVA_250
+</code></pre>
 <hr />
 <h2 id="author">Author</h2>
 <p><strong>Yayasan Lokahita</strong></p>
@@ -304,13 +433,14 @@
 <li>Fariz Rizaldy Wibowo</li>
 </ul>
 <h3 id="supported-by">Supported By</h3>
-<p><strong>Kementerian Lingkungan Hidup Republik Indonesia</strong></p>
+<p><strong>Direktorat PDLKWS – Deputi TLSDAB</strong><br />
+<strong>Kementerian Lingkungan Hidup / BPLH Republik Indonesia</strong></p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../grid/" class="btn btn-neutral float-left" title="SGSRI"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../class_road/" class="btn btn-neutral float-right" title="Klasifikasi Jalan">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../class_road/" class="btn btn-neutral float-left" title="Klasifikasi Jalan"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../chk_quality/" class="btn btn-neutral float-right" title="Perbaikan Data">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -333,10 +463,10 @@
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../grid/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../class_road/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../class_road/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../chk_quality/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

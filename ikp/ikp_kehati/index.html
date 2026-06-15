@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>IKP Kehati - Otomatisasi D3TLH</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "IKP Kehati";
+        var mkdocs_page_input_path = "ikp\\ikp_kehati.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Otomatisasi D3TLH
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">A. Utilities</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../mca/">MCA</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../grid/">SGSRI</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">B. Preprocessing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../class_lckws/">Klasifikasi PL & Hutan KLHK</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../class_road/">Klasifikasi Jalan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../std_schema/">Standarisasi Skema Data</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../chk_quality/">Perbaikan Data</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../add_islandatrbt/">Penambahan Atribut Pulau</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">C. JLH</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../jlh/jlh_phk/">JLH Pendukung Habitat dan Kehati</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../jlh/jlh_pku/">JLH Pengatur Kualitas Udara</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../jlh/jlh_pga/">JLH Pengaturan Air</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../jlh/jlh_pya/">JLH Penyedia Air</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../jlh/jlh_pgn/">JLH Penyedia Pangan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../jlh/jlh_ppk/">JLH Penyerapan dan Penyimpanan Karbon</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">D. Demo and Eco Model</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../socio/dist_penduduk/">Model Distribusi Penduduk</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../socio/eco_footprint/">Model Jejak Ekologis</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">E. IKP</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../ikp_air/">IKP Air</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">IKP Kehati</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#purpose">Purpose</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#required-inputs">Required Inputs</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#1-ijlh-pku-layer">1. IJLH PKU Layer</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#2-ijlh-pga-layer">2. IJLH PGA Layer</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#3-ijlh-ppk-layer">3. IJLH PPK Layer</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#4-ijlh-pya-layer">4. IJLH PYA Layer</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#5-land-cover-layer-pl">5. Land Cover Layer (PL)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#6-ecoregion-layer">6. Ecoregion Layer</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#7-rte-layer">7. RTE Layer</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#8-habitat-layer">8. Habitat Layer</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#9-population-grid-layer">9. Population Grid Layer</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#sample-data">Sample Data</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#output">Output</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#1-biodiversity-ikp-polygon-layer">1. Biodiversity IKP Polygon Layer</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#2-biodiversity-ikp-grid-layer">2. Biodiversity IKP Grid Layer</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#methodology">Methodology</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#biodiversity-protection-component-pku">Biodiversity Protection Component (PKU)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#biodiversity-ecosystem-service-component-pga">Biodiversity Ecosystem Service Component (PGA)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#biodiversity-preservation-component-ppk">Biodiversity Preservation Component (PPK)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#biodiversity-water-resource-component-pya">Biodiversity Water Resource Component (PYA)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#habitat-assessment">Habitat Assessment</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ecoregion-assessment">Ecoregion Assessment</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#rte-assessment">RTE Assessment</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#composite-biodiversity-score">Composite Biodiversity Score</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#classification">Classification</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#processing-workflow">Processing Workflow</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#output-interpretation">Output Interpretation</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#high-ikp-values">High IKP Values</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#moderate-ikp-values">Moderate IKP Values</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#low-ikp-values">Low IKP Values</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#high-skor_ikp">High SKOR_IKP</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#low-skor_ikp">Low SKOR_IKP</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#applications">Applications</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#notes">Notes</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#author">Author</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../ikp_lahan/">IKP Lahan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../ikp_udara/">IKP Udara</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">F. Integration (Indeks D3TLH)</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../index_d3tlh/">Indeks D3TLH</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">G. Styling</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../simbology/">Simbology</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Otomatisasi D3TLH</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">E. IKP</li>
+      <li class="breadcrumb-item active">IKP Kehati</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="biodiversity-utilization-capability-index-ikp-kehati">Biodiversity Utilization Capability Index (IKP Kehati)</h1>
+<h2 id="overview">Overview</h2>
+<p>This module calculates the <strong>Biodiversity Utilization Capability Index (IKP Kehati)</strong>, an indicator used to assess the capacity of biodiversity resources to support ecosystem functions, ecosystem services, and sustainable human activities.</p>
+<p>The methodology integrates biodiversity-supporting environmental components, including land cover, habitat conditions, ecoregions, protected areas, important biodiversity areas, water resources, and population distribution.</p>
+<p>The resulting index provides a spatial representation of biodiversity utilization pressure and ecosystem support capacity, supporting environmental carrying capacity assessments, conservation planning, and D3TLH workflows.</p>
+<hr />
+<h2 id="purpose">Purpose</h2>
+<p>To evaluate the capacity of biodiversity resources in supporting ecological processes and human well-being by integrating biodiversity-related indicators into a standardized index.</p>
+<p>The analysis produces:</p>
+<ul>
+<li>Biodiversity Utilization Capability Index (IKP Kehati)</li>
+<li>Biodiversity Capability Classification</li>
+<li>Biodiversity Capability Score</li>
+<li>Grid-based biodiversity assessment</li>
+<li>Polygon-based biodiversity assessment</li>
+</ul>
+<hr />
+<h2 id="required-inputs">Required Inputs</h2>
+<h3 id="1-ijlh-pku-layer">1. IJLH PKU Layer</h3>
+<p>Vector dataset representing biodiversity protection and conservation components.</p>
+<h3 id="2-ijlh-pga-layer">2. IJLH PGA Layer</h3>
+<p>Vector dataset representing biodiversity ecosystem service components.</p>
+<h3 id="3-ijlh-ppk-layer">3. IJLH PPK Layer</h3>
+<p>Vector dataset representing biodiversity preservation and ecological support components.</p>
+<h3 id="4-ijlh-pya-layer">4. IJLH PYA Layer</h3>
+<p>Vector dataset representing biodiversity-related water resource components.</p>
+<h3 id="5-land-cover-layer-pl">5. Land Cover Layer (PL)</h3>
+<p>Land cover dataset used to evaluate habitat condition and ecosystem quality.</p>
+<p>Required field:</p>
+<ul>
+<li><code>PL</code></li>
+</ul>
+<h3 id="6-ecoregion-layer">6. Ecoregion Layer</h3>
+<p>Vector dataset representing ecological regions.</p>
+<h3 id="7-rte-layer">7. RTE Layer</h3>
+<p>Vector dataset containing Rare, Threatened, and Endangered (RTE) species information.</p>
+<h3 id="8-habitat-layer">8. Habitat Layer</h3>
+<p>Vector dataset representing habitat distribution and biodiversity-supporting ecosystems.</p>
+<h3 id="9-population-grid-layer">9. Population Grid Layer</h3>
+<p>Grid-based population distribution dataset.</p>
+<p>Required field:</p>
+<ul>
+<li><code>POPGRIDYY</code></li>
+</ul>
+<h3 id="sample-data">Sample Data</h3>
+<p>Ecoregion, RTE, and Habitat datasets can be downloaded from:</p>
+<p>https://1drv.ms/f/c/0192f2f41be57bd4/IgCrBpWOqxvaTIzz8gqsefHUAX5hU69vv9VZuguUZaD0K3I?e=wLMnjS</p>
+<hr />
+<h2 id="output">Output</h2>
+<p>The algorithm produces:</p>
+<h3 id="1-biodiversity-ikp-polygon-layer">1. Biodiversity IKP Polygon Layer</h3>
+<p>Spatial biodiversity assessment aggregated into polygon units.</p>
+<h3 id="2-biodiversity-ikp-grid-layer">2. Biodiversity IKP Grid Layer</h3>
+<p>Grid-based biodiversity assessment.</p>
+<p>Each grid contains:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ID</code></td>
+<td>Grid identifier</td>
+</tr>
+<tr>
+<td><code>IKP_KEHATI</code></td>
+<td>Biodiversity Utilization Capability Index</td>
+</tr>
+<tr>
+<td><code>KELAS_IKP</code></td>
+<td>IKP classification</td>
+</tr>
+<tr>
+<td><code>SKOR_IKP</code></td>
+<td>IKP score</td>
+</tr>
+<tr>
+<td><code>PKU</code></td>
+<td>Biodiversity protection component</td>
+</tr>
+<tr>
+<td><code>PGA</code></td>
+<td>Biodiversity ecosystem service component</td>
+</tr>
+<tr>
+<td><code>PPK</code></td>
+<td>Biodiversity preservation component</td>
+</tr>
+<tr>
+<td><code>PYA</code></td>
+<td>Biodiversity water resource component</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="methodology">Methodology</h2>
+<p>The Biodiversity IKP is derived by integrating multiple biodiversity-supporting indicators.</p>
+<h3 id="biodiversity-protection-component-pku">Biodiversity Protection Component (PKU)</h3>
+<p>The PKU dataset is intersected with the analysis grid to calculate biodiversity protection values.</p>
+<p>Output field:</p>
+<pre><code class="language-text">PKU
+</code></pre>
+<hr />
+<h3 id="biodiversity-ecosystem-service-component-pga">Biodiversity Ecosystem Service Component (PGA)</h3>
+<p>The PGA dataset is intersected with the analysis grid to calculate ecosystem service support values.</p>
+<p>Output field:</p>
+<pre><code class="language-text">PGA
+</code></pre>
+<hr />
+<h3 id="biodiversity-preservation-component-ppk">Biodiversity Preservation Component (PPK)</h3>
+<p>The PPK dataset is intersected with the analysis grid to calculate biodiversity preservation values.</p>
+<p>Output field:</p>
+<pre><code class="language-text">PPK
+</code></pre>
+<hr />
+<h3 id="biodiversity-water-resource-component-pya">Biodiversity Water Resource Component (PYA)</h3>
+<p>The PYA dataset is intersected with the analysis grid to calculate biodiversity-related water resource values.</p>
+<p>Output field:</p>
+<pre><code class="language-text">PYA
+</code></pre>
+<hr />
+<h3 id="habitat-assessment">Habitat Assessment</h3>
+<p>Habitat quality and habitat extent are evaluated within each analysis grid.</p>
+<p>Factors considered include:</p>
+<ul>
+<li>Habitat availability</li>
+<li>Habitat continuity</li>
+<li>Habitat suitability</li>
+<li>Habitat fragmentation</li>
+</ul>
+<hr />
+<h3 id="ecoregion-assessment">Ecoregion Assessment</h3>
+<p>Ecoregion characteristics are used to account for ecological variability and regional biodiversity potential.</p>
+<hr />
+<h3 id="rte-assessment">RTE Assessment</h3>
+<p>Rare, Threatened, and Endangered species distributions are incorporated to represent biodiversity significance and conservation value.</p>
+<hr />
+<h3 id="composite-biodiversity-score">Composite Biodiversity Score</h3>
+<p>The biodiversity components are standardized and combined into a composite biodiversity index.</p>
+<p>Conceptually:</p>
+<pre><code class="language-text">IKP_KEHATI = f(PKU, PGA, PPK, PYA, Habitat, Ecoregion, RTE)
+</code></pre>
+<p>where:</p>
+<ul>
+<li><code>PKU</code> = Biodiversity protection component</li>
+<li><code>PGA</code> = Ecosystem service component</li>
+<li><code>PPK</code> = Biodiversity preservation component</li>
+<li><code>PYA</code> = Water resource component</li>
+<li><code>Habitat</code> = Habitat quality indicator</li>
+<li><code>Ecoregion</code> = Ecological region indicator</li>
+<li><code>RTE</code> = Rare, Threatened, and Endangered species indicator</li>
+</ul>
+<hr />
+<h3 id="classification">Classification</h3>
+<p>The resulting IKP values are classified into five categories.</p>
+<table>
+<thead>
+<tr>
+<th>Score</th>
+<th>Class</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5</td>
+<td>Very High</td>
+</tr>
+<tr>
+<td>4</td>
+<td>High</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Moderate</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Very Low</td>
+</tr>
+</tbody>
+</table>
+<p>Output fields:</p>
+<pre><code class="language-text">KELAS_IKP
+</code></pre>
+<pre><code class="language-text">SKOR_IKP
+</code></pre>
+<hr />
+<h2 id="processing-workflow">Processing Workflow</h2>
+<ol>
+<li>Harmonize the coordinate reference system (CRS) of all datasets.</li>
+<li>Repair invalid geometries and create spatial indexes.</li>
+<li>
+<p>Load:</p>
+</li>
+<li>
+<p>IJLH PKU</p>
+</li>
+<li>IJLH PGA</li>
+<li>IJLH PPK</li>
+<li>IJLH PYA</li>
+<li>Land Cover</li>
+<li>Ecoregion</li>
+<li>RTE</li>
+<li>Habitat</li>
+<li>Population Grid</li>
+<li>Standardize input fields and geometries.</li>
+<li>Intersect biodiversity datasets with the analysis grid.</li>
+<li>
+<p>Calculate:</p>
+</li>
+<li>
+<p>PKU</p>
+</li>
+<li>PGA</li>
+<li>PPK</li>
+<li>PYA</li>
+<li>Evaluate habitat conditions.</li>
+<li>Evaluate ecoregion characteristics.</li>
+<li>Evaluate RTE significance.</li>
+<li>Standardize component values.</li>
+<li>
+<p>Calculate:</p>
+<ul>
+<li>IKP_KEHATI</li>
+<li>
+<p>Classify biodiversity capability into:</p>
+</li>
+<li>
+<p>Very High</p>
+</li>
+<li>High</li>
+<li>Moderate</li>
+<li>Low</li>
+<li>Very Low</li>
+<li>
+<p>Assign:</p>
+</li>
+<li>
+<p>KELAS_IKP</p>
+</li>
+<li>SKOR_IKP</li>
+<li>Generate polygon outputs.</li>
+<li>Generate grid outputs.</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h2 id="output-interpretation">Output Interpretation</h2>
+<h3 id="high-ikp-values">High IKP Values</h3>
+<p>Indicate:</p>
+<ul>
+<li>Healthy biodiversity conditions</li>
+<li>Strong ecosystem functionality</li>
+<li>High ecological resilience</li>
+<li>Significant ecosystem service provision</li>
+<li>Strong biodiversity support capacity</li>
+</ul>
+<h3 id="moderate-ikp-values">Moderate IKP Values</h3>
+<p>Indicate:</p>
+<ul>
+<li>Biodiversity resources remain functional</li>
+<li>Some ecological pressure may exist</li>
+<li>Management interventions may be beneficial</li>
+</ul>
+<h3 id="low-ikp-values">Low IKP Values</h3>
+<p>Indicate:</p>
+<ul>
+<li>Biodiversity degradation</li>
+<li>Reduced ecosystem services</li>
+<li>Habitat fragmentation</li>
+<li>Increased ecological pressure</li>
+<li>Higher conservation priority</li>
+</ul>
+<h3 id="high-skor_ikp">High SKOR_IKP</h3>
+<p>Indicates areas with strong biodiversity support and ecological sustainability.</p>
+<h3 id="low-skor_ikp">Low SKOR_IKP</h3>
+<p>Indicates areas requiring biodiversity conservation and ecosystem restoration efforts.</p>
+<hr />
+<h2 id="applications">Applications</h2>
+<p>The resulting Biodiversity IKP dataset can be used for:</p>
+<ul>
+<li>Environmental Carrying Capacity (DDLH) analysis</li>
+<li>Biodiversity assessment</li>
+<li>Conservation planning</li>
+<li>Ecosystem service evaluation</li>
+<li>Ecological restoration prioritization</li>
+<li>Spatial planning</li>
+<li>Sustainable development assessment</li>
+<li>Environmental policy development</li>
+<li>D3TLH analysis workflows</li>
+</ul>
+<hr />
+<h2 id="notes">Notes</h2>
+<ul>
+<li>All input layers should use the same CRS.</li>
+<li>Habitat, ecoregion, and RTE datasets should be spatially consistent.</li>
+<li>Biodiversity assessments are sensitive to land cover quality and habitat conditions.</li>
+<li>Population distribution may influence biodiversity utilization pressure.</li>
+<li>It is recommended not to save outputs as temporary layers.</li>
+<li>The quality of the results depends on the completeness and accuracy of biodiversity-related datasets.</li>
+</ul>
+<hr />
+<h2 id="author">Author</h2>
+<p><strong>Yayasan Lokahita</strong></p>
+<ul>
+<li>Fadillah Azhar Deaudin Kurniawan</li>
+<li>Sitarani Safitri</li>
+<li>Dini Aprilia Norvyani</li>
+<li>Suchi Rahmadani</li>
+<li>Fariz Rizaldy Wibowo</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../ikp_air/" class="btn btn-neutral float-left" title="IKP Air"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../ikp_lahan/" class="btn btn-neutral float-right" title="IKP Lahan">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../ikp_air/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../ikp_lahan/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

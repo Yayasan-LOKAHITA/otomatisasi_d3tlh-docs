@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Penambahan Atribut Pulau - Otomatisasi D3TLH</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Penambahan Atribut Pulau";
+        var mkdocs_page_input_path = "add_islandatrbt.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Otomatisasi D3TLH
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">A. Utilities</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../mca/">MCA</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../grid/">SGSRI</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">B. Preprocessing</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../class_lckws/">Klasifikasi PL & Hutan KLHK</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../class_road/">Klasifikasi Jalan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../std_schema/">Standarisasi Skema Data</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../chk_quality/">Perbaikan Data</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Penambahan Atribut Pulau</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#purpose">Purpose</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#processing-workflow">Processing Workflow</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#input-parameters">Input Parameters</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#input-layer">Input Layer</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#overwrite-existing-pulau-values">Overwrite Existing PULAU Values</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#classification-method">Classification Method</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#step-1-coordinate-standardization">Step 1 – Coordinate Standardization</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#step-2-centroid-calculation">Step 2 – Centroid Calculation</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#step-3-island-polygon-classification">Step 3 – Island Polygon Classification</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#step-4-nearest-island-fallback">Step 4 – Nearest Island Fallback</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#island-categories">Island Categories</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#output">Output</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#output-example">Output Example</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#notes">Notes</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#common-issues">Common Issues</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#unexpected-island-assignment">Unexpected Island Assignment</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#features-near-island-boundaries">Features Near Island Boundaries</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#technical-details">Technical Details</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#coordinate-reference-system">Coordinate Reference System</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#distance-calculation">Distance Calculation</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#embedded-island-boundaries">Embedded Island Boundaries</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#author">Author</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#supported-by">Supported By</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">C. JLH</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../jlh/jlh_phk/">JLH Pendukung Habitat dan Kehati</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../jlh/jlh_pku/">JLH Pengatur Kualitas Udara</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../jlh/jlh_pga/">JLH Pengaturan Air</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../jlh/jlh_pya/">JLH Penyedia Air</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../jlh/jlh_pgn/">JLH Penyedia Pangan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../jlh/jlh_ppk/">JLH Penyerapan dan Penyimpanan Karbon</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">D. Demo and Eco Model</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../socio/dist_penduduk/">Model Distribusi Penduduk</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../socio/eco_footprint/">Model Jejak Ekologis</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">E. IKP</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../ikp/ikp_air/">IKP Air</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../ikp/ikp_kehati/">IKP Kehati</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../ikp/ikp_lahan/">IKP Lahan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../ikp/ikp_udara/">IKP Udara</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">F. Integration (Indeks D3TLH)</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../ikp/index_d3tlh/">Indeks D3TLH</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">G. Styling</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../simbology/">Simbology</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Otomatisasi D3TLH</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">B. Preprocessing</li>
+      <li class="breadcrumb-item active">Penambahan Atribut Pulau</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="penambahan-atribut-pulau">Penambahan Atribut Pulau</h1>
+<h2 id="overview">Overview</h2>
+<p>This module automatically assigns an island name (<code>PULAU</code>) to each feature based on its geographic location.</p>
+<p>The algorithm uses predefined island boundary polygons covering the major island groups of Indonesia and classifies each feature according to the location of its centroid.</p>
+<p>If a centroid falls outside all predefined island polygons, the algorithm assigns the nearest island using a distance-based fallback method.</p>
+<hr />
+<h2 id="purpose">Purpose</h2>
+<p>This tool standardizes island attribution for spatial datasets used in D3TLH processing workflows.</p>
+<p>The generated <code>PULAU</code> attribute can be used for:</p>
+<ul>
+<li>Regional analysis</li>
+<li>Data aggregation by island</li>
+<li>Reporting and statistics</li>
+<li>Quality control and validation</li>
+<li>Subsequent D3TLH processing modules</li>
+</ul>
+<hr />
+<h2 id="processing-workflow">Processing Workflow</h2>
+<ol>
+<li>Select the input layer.</li>
+<li>Choose whether existing <code>PULAU</code> values should be overwritten.</li>
+<li>Run the algorithm.</li>
+<li>The layer is automatically reprojected to EPSG:4326.</li>
+<li>The centroid of each feature is calculated.</li>
+<li>The centroid is checked against predefined island polygons.</li>
+<li>If no polygon match is found, the nearest island is determined using geographic distance.</li>
+<li>A new layer with the <code>PULAU</code> attribute is generated.</li>
+</ol>
+<hr />
+<h2 id="input-parameters">Input Parameters</h2>
+<h3 id="input-layer">Input Layer</h3>
+<p>Vector layer to be classified.</p>
+<p>Supported geometry types:</p>
+<ul>
+<li>Point</li>
+<li>Line</li>
+<li>Polygon</li>
+</ul>
+<hr />
+<h3 id="overwrite-existing-pulau-values">Overwrite Existing PULAU Values</h3>
+<p>Determines whether existing values in the <code>PULAU</code> field should be replaced.</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Enabled</td>
+<td>Existing <code>PULAU</code> values are replaced</td>
+</tr>
+<tr>
+<td>Disabled</td>
+<td>Existing values are preserved</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Default:</strong> Disabled</p>
+<hr />
+<h2 id="classification-method">Classification Method</h2>
+<h3 id="step-1-coordinate-standardization">Step 1 – Coordinate Standardization</h3>
+<p>The input layer is automatically reprojected to:</p>
+<pre><code class="language-text">EPSG:4326 (WGS 84)
+</code></pre>
+<p>to ensure consistent geographic calculations.</p>
+<hr />
+<h3 id="step-2-centroid-calculation">Step 2 – Centroid Calculation</h3>
+<p>For each feature, the algorithm calculates the centroid location.</p>
+<p>The centroid is used as the representative position for island classification.</p>
+<hr />
+<h3 id="step-3-island-polygon-classification">Step 3 – Island Polygon Classification</h3>
+<p>The centroid is tested against predefined island polygons representing:</p>
+<ul>
+<li>Sumatera</li>
+<li>Jawa</li>
+<li>Bali–Nusa Tenggara</li>
+<li>Kalimantan</li>
+<li>Sulawesi</li>
+<li>Maluku</li>
+<li>Papua</li>
+</ul>
+<p>If the centroid falls inside one of these polygons, the corresponding island name is assigned.</p>
+<hr />
+<h3 id="step-4-nearest-island-fallback">Step 4 – Nearest Island Fallback</h3>
+<p>If a centroid does not intersect any island polygon, the algorithm determines the nearest island using the Haversine distance formula.</p>
+<p>This ensures that all features receive a valid island classification.</p>
+<hr />
+<h2 id="island-categories">Island Categories</h2>
+<p>The algorithm assigns one of the following values:</p>
+<table>
+<thead>
+<tr>
+<th>PULAU Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sumatera</td>
+</tr>
+<tr>
+<td>Jawa</td>
+</tr>
+<tr>
+<td>Bali–Nusra</td>
+</tr>
+<tr>
+<td>Kalimantan</td>
+</tr>
+<tr>
+<td>Sulawesi</td>
+</tr>
+<tr>
+<td>Maluku</td>
+</tr>
+<tr>
+<td>Papua</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="output">Output</h2>
+<p>The output layer contains all original attributes plus the <code>PULAU</code> field.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PULAU</td>
+<td>Assigned island classification</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="output-example">Output Example</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Assigned PULAU</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lampung</td>
+<td>Sumatera</td>
+</tr>
+<tr>
+<td>Bandung</td>
+<td>Jawa</td>
+</tr>
+<tr>
+<td>Denpasar</td>
+<td>Bali–Nusra</td>
+</tr>
+<tr>
+<td>Samarinda</td>
+<td>Kalimantan</td>
+</tr>
+<tr>
+<td>Makassar</td>
+<td>Sulawesi</td>
+</tr>
+<tr>
+<td>Ambon</td>
+<td>Maluku</td>
+</tr>
+<tr>
+<td>Jayapura</td>
+<td>Papua</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="notes">Notes</h2>
+<ul>
+<li>The original input layer is not modified.</li>
+<li>The output is written to a new layer.</li>
+<li>Classification is based on feature centroids.</li>
+<li>The algorithm does not require external island boundary datasets.</li>
+<li>Island boundaries are embedded directly within the plugin.</li>
+</ul>
+<hr />
+<h2 id="common-issues">Common Issues</h2>
+<h3 id="unexpected-island-assignment">Unexpected Island Assignment</h3>
+<p>Because classification uses feature centroids, very large geometries spanning multiple islands may be assigned based on the centroid location rather than total area coverage.</p>
+<hr />
+<h3 id="features-near-island-boundaries">Features Near Island Boundaries</h3>
+<p>Features located close to island boundaries may be assigned using the nearest-island fallback method if the centroid falls outside predefined polygon extents.</p>
+<hr />
+<h2 id="technical-details">Technical Details</h2>
+<h3 id="coordinate-reference-system">Coordinate Reference System</h3>
+<p>All processing is performed using:</p>
+<pre><code class="language-text">EPSG:4326 (WGS 84)
+</code></pre>
+<h3 id="distance-calculation">Distance Calculation</h3>
+<p>Nearest-island classification uses the Haversine formula to calculate great-circle distances between geographic coordinates.</p>
+<h3 id="embedded-island-boundaries">Embedded Island Boundaries</h3>
+<p>The algorithm contains predefined polygon boundaries for Indonesia's major island groups and does not require external reference layers.</p>
+<hr />
+<h2 id="author">Author</h2>
+<p><strong>Yayasan Lokahita</strong></p>
+<ul>
+<li>Fadillah Azhar Deaudin Kurniawan</li>
+<li>Sitarani Safitri</li>
+<li>Dini Aprilia Norvyani</li>
+<li>Suchi Rahmadani</li>
+<li>Fariz Rizaldy Wibowo</li>
+</ul>
+<h3 id="supported-by">Supported By</h3>
+<p><strong>Direktorat PDLKWS – Deputi TLSDAB</strong><br />
+<strong>Kementerian Lingkungan Hidup / BPLH Republik Indonesia</strong></p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../chk_quality/" class="btn btn-neutral float-left" title="Perbaikan Data"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../jlh/jlh_phk/" class="btn btn-neutral float-right" title="JLH Pendukung Habitat dan Kehati">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../chk_quality/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../jlh/jlh_phk/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
