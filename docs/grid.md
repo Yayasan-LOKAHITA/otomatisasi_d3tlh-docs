@@ -43,5 +43,5 @@ The generated IMGS layer contains the following attributes:
 - Fariz Rizaldy Wibowo
 
 ### Supported By
-
-**Kementerian Lingkungan Hidup Republik Indonesia**
+Directorate for Environmental Impact Prevention and Regional Sectoral Policy  
+Kementerian Lingkungan Hidup Republik Indonesia

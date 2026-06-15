@@ -8,3 +8,25 @@ nav:
   - B. Preprocessing : 
     - Klasifikasi PL & Hutan KLHK : class_lckws.md
     - Klasifikasi Jalan : class_road.md
+    - Standarisasi Skema Data : std_schema.md
+    - Perbaikan Data : chk_quality.md
+    - Penambahan Atribut Pulau : add_islandatrbt.md
+  - C. JLH :
+    - JLH Pendukung Habitat dan Kehati : jlh/jlh_phk.md
+    - JLH Pengatur Kualitas Udara : jlh/jlh_pku.md
+    - JLH Pengaturan Air : jlh/jlh_pga.md
+    - JLH Penyedia Air : jlh/jlh_pya.md
+    - JLH Penyedia Pangan : jlh/jlh_pgn.md
+    - JLH Penyerapan dan Penyimpanan Karbon : jlh/jlh_ppk.md
+  - D. Demo and Eco Model :
+    - Model Distribusi Penduduk : socio/dist_penduduk.md
+    - Model Jejak Ekologis : socio/eco_footprint.md
+  - E. IKP : 
+    - IKP Air : ikp/ikp_air.md
+    - IKP Kehati : ikp/ikp_kehati.md
+    - IKP Lahan : ikp/ikp_lahan.md
+    - IKP Udara : ikp/ikp_udara.md
+  - F. Integration (Indeks D3TLH) :
+    - Indeks D3TLH : ikp/index_d3tlh.md
+  - G. Styling :
+    - Simbology : simbology.md

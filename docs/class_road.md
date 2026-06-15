@@ -75,3 +75,19 @@ The output layer contains all original attributes plus a standardized `KJLN` fie
 | KJLN | Standardized road class used for population distribution modeling |
 
 The original input layer remains unchanged.
+
+---
+
+## Author
+
+**Yayasan Lokahita**
+
+- Fadillah Azhar Deaudin Kurniawan
+- Sitarani Safitri
+- Dini Aprilia Norvyani
+- Suchi Rahmadani
+- Fariz Rizaldy Wibowo
+
+### Supported By
+Directorate for Environmental Impact Prevention and Regional Sectoral Policy  
+Kementerian Lingkungan Hidup Republik Indonesia

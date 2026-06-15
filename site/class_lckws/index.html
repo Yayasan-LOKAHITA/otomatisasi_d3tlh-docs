@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Klasifikasi PL & Hutan KLHK - Otomatisasi D3TLH</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Klasifikasi PL \u0026 Hutan KLHK";
+        var mkdocs_page_input_path = "class_lckws.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Otomatisasi D3TLH
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">A. Utilities</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../mca/">MCA</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../grid/">SGSRI</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">B. Preprocessing</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Klasifikasi PL & Hutan KLHK</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#processing-workflow">Processing Workflow</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#input-parameters">Input Parameters</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#input-layer">Input Layer</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#classification-type">Classification Type</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#id-field">ID Field</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#treat-id-as-text">Treat ID as Text</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#match-numeric-ids-with-or-without-leading-zeros">Match Numeric IDs with or without Leading Zeros</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#output">Output</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#penutup-lahan-output">Penutup Lahan Output</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#kawasan-hutan-output">Kawasan Hutan Output</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#common-issues">Common Issues</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#id-field-not-found">ID Field Not Found</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#author">Author</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#supported-by">Supported By</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../class_road/">Klasifikasi Jalan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../std_schema/">Standarisasi Skema Data</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../chk_quality/">Perbaikan Data</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../add_islandatrbt/">Penambahan Atribut Pulau</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">C. JLH</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../jlh/jlh_phk/">JLH Pendukung Habitat dan Kehati</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../jlh/jlh_pku/">JLH Pengatur Kualitas Udara</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../jlh/jlh_pga/">JLH Pengaturan Air</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../jlh/jlh_pya/">JLH Penyedia Air</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../jlh/jlh_pgn/">JLH Penyedia Pangan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../jlh/jlh_ppk/">JLH Penyerapan dan Penyimpanan Karbon</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">D. Demo and Eco Model</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../socio/dist_penduduk/">Model Distribusi Penduduk</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../socio/eco_footprint/">Model Jejak Ekologis</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">E. IKP</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../ikp/ikp_air/">IKP Air</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../ikp/ikp_kehati/">IKP Kehati</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../ikp/ikp_lahan/">IKP Lahan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../ikp/ikp_udara/">IKP Udara</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">F. Integration (Indeks D3TLH)</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../ikp/index_d3tlh/">Indeks D3TLH</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">G. Styling</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../simbology/">Simbology</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Otomatisasi D3TLH</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">B. Preprocessing</li>
+      <li class="breadcrumb-item active">Klasifikasi PL & Hutan KLHK</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="klasifikasi-penutupan-lahan-kawasan-hutan-klhk-ri">Klasifikasi Penutupan Lahan &amp; Kawasan Hutan (KLHK RI)</h1>
+<h2 id="overview">Overview</h2>
+<p>This algorithm classifies features into <strong>Land Cover (PL)</strong> or <strong>Forest Area (Kawasan Hutan)</strong> classes using internal lookup tables bundled with the plugin.</p>
+<p>No external CSV input is required from the user. The algorithm automatically loads the appropriate classification database and assigns classification labels based on the selected identifier field.</p>
+<hr />
+<h2 id="processing-workflow">Processing Workflow</h2>
+<ol>
+<li>Select the input layer.</li>
+<li>Choose the classification type.</li>
+<li>Select the field containing the classification code.</li>
+<li>Load the corresponding internal lookup table.</li>
+<li>Match input values against the lookup table.</li>
+<li>Create a new classification field.</li>
+<li>Generate the output layer.</li>
+</ol>
+<hr />
+<h2 id="input-parameters">Input Parameters</h2>
+<h3 id="input-layer">Input Layer</h3>
+<p>Vector layer containing the classification identifier.</p>
+<p>Supported geometry types:</p>
+<ul>
+<li>Point</li>
+<li>Line</li>
+<li>Polygon</li>
+</ul>
+<h3 id="classification-type">Classification Type</h3>
+<p>Choose the classification scheme to apply.</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Penutup Lahan (PL)</td>
+<td>Land Cover classification</td>
+</tr>
+<tr>
+<td>Kawasan Hutan (kwshutan)</td>
+<td>Forest Area classification</td>
+</tr>
+</tbody>
+</table>
+<h3 id="id-field">ID Field</h3>
+<p>Field containing the classification code to be matched against the lookup table.</p>
+<p>Examples:</p>
+<ul>
+<li><code>PL2024_ID</code></li>
+<li><code>fungsikws</code></li>
+<li><code>CODE</code></li>
+</ul>
+<h3 id="treat-id-as-text">Treat ID as Text</h3>
+<p>Preserves the original formatting of identifier values, including leading zeros.</p>
+<p><strong>Default:</strong> Enabled</p>
+<h3 id="match-numeric-ids-with-or-without-leading-zeros">Match Numeric IDs with or without Leading Zeros</h3>
+<p>Allows matching of equivalent numeric values regardless of formatting.</p>
+<p>Examples:</p>
+<table>
+<thead>
+<tr>
+<th>Input Value</th>
+<th>Lookup Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>1</code></td>
+<td><code>001</code></td>
+</tr>
+<tr>
+<td><code>001</code></td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td><code>0005</code></td>
+<td><code>5</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Default:</strong> Enabled</p>
+<hr />
+<h2 id="output">Output</h2>
+<p>The output layer contains all original attributes plus an additional classification field.</p>
+<h3 id="penutup-lahan-output">Penutup Lahan Output</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PL</td>
+<td>Land cover classification</td>
+</tr>
+</tbody>
+</table>
+<h3 id="kawasan-hutan-output">Kawasan Hutan Output</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>kwshutan</td>
+<td>Forest area classification</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="common-issues">Common Issues</h2>
+<h3 id="id-field-not-found">ID Field Not Found</h3>
+<p><strong>Message</strong></p>
+<pre><code class="language-text">ID field not found in input layer.
+</code></pre>
+<p><strong>Solution</strong></p>
+<p>Verify that the selected identifier field exists in the input dataset.</p>
+<hr />
+<h2 id="author">Author</h2>
+<p><strong>Yayasan Lokahita</strong></p>
+<ul>
+<li>Fadillah Azhar Deaudin Kurniawan</li>
+<li>Sitarani Safitri</li>
+<li>Dini Aprilia Norvyani</li>
+<li>Suchi Rahmadani</li>
+<li>Fariz Rizaldy Wibowo</li>
+</ul>
+<h3 id="supported-by">Supported By</h3>
+<p>Directorate for Environmental Impact Prevention and Regional Sectoral Policy<br />
+Kementerian Lingkungan Hidup Republik Indonesia</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../grid/" class="btn btn-neutral float-left" title="SGSRI"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../class_road/" class="btn btn-neutral float-right" title="Klasifikasi Jalan">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../grid/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../class_road/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

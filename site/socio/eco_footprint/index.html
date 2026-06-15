@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Model Jejak Ekologis - Otomatisasi D3TLH</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Model Jejak Ekologis";
+        var mkdocs_page_input_path = "socio\\eco_footprint.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Otomatisasi D3TLH
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">A. Utilities</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../mca/">MCA</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../grid/">SGSRI</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">B. Preprocessing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../class_lckws/">Klasifikasi PL & Hutan KLHK</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../class_road/">Klasifikasi Jalan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../std_schema/">Standarisasi Skema Data</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../chk_quality/">Perbaikan Data</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../add_islandatrbt/">Penambahan Atribut Pulau</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">C. JLH</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../jlh/jlh_phk/">JLH Pendukung Habitat dan Kehati</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../jlh/jlh_pku/">JLH Pengatur Kualitas Udara</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../jlh/jlh_pga/">JLH Pengaturan Air</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../jlh/jlh_pya/">JLH Penyedia Air</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../jlh/jlh_pgn/">JLH Penyedia Pangan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../jlh/jlh_ppk/">JLH Penyerapan dan Penyimpanan Karbon</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">D. Demo and Eco Model</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../dist_penduduk/">Model Distribusi Penduduk</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Model Jejak Ekologis</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#purpose">Purpose</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#required-inputs">Required Inputs</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#1-statistical-data-table">1. Statistical Data Table</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#output">Output</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#methodology">Methodology</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#food-component-pangan">Food Component (PANGAN)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#clothing-component-sandang">Clothing Component (SANDANG)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#housing-component-papan">Housing Component (PAPAN)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#built-up-component-builtup">Built-up Component (BUILTUP)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ecological-footprint-per-capita">Ecological Footprint per Capita</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#total-land-requirement">Total Land Requirement</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#processing-workflow">Processing Workflow</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#output-interpretation">Output Interpretation</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#high-ef_cap_year-values">High EF_CAP_YEAR Values</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#low-ef_cap_year-values">Low EF_CAP_YEAR Values</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#high-total_ha-values">High TOTAL_HA Values</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#low-total_ha-values">Low TOTAL_HA Values</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#applications">Applications</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#notes">Notes</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#author">Author</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#supported-by">Supported By</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">E. IKP</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ikp/ikp_air/">IKP Air</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ikp/ikp_kehati/">IKP Kehati</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ikp/ikp_lahan/">IKP Lahan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ikp/ikp_udara/">IKP Udara</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">F. Integration (Indeks D3TLH)</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ikp/index_d3tlh/">Indeks D3TLH</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">G. Styling</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../simbology/">Simbology</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Otomatisasi D3TLH</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">D. Demo and Eco Model</li>
+      <li class="breadcrumb-item active">Model Jejak Ekologis</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="ecological-footprint-calculation">Ecological Footprint Calculation</h1>
+<h2 id="overview">Overview</h2>
+<p>This module calculates the <strong>Ecological Footprint (Jejak Ekologis)</strong> of a region based on statistical data representing population consumption and land requirements.</p>
+<p>The ecological footprint measures the amount of biologically productive land and water area required to support human activities, including food consumption, clothing needs, housing requirements, and built-up areas.</p>
+<p>The resulting table can be used as an input for environmental carrying capacity analysis, sustainable development assessments, and D3TLH workflows.</p>
+<hr />
+<h2 id="purpose">Purpose</h2>
+<p>To calculate the ecological footprint of a region and estimate the total land area required to support the population's resource consumption.</p>
+<p>The analysis produces:</p>
+<ul>
+<li>Ecological Footprint per Capita per Year</li>
+<li>Total Land Requirement (Hectares)</li>
+<li>Ecological Footprint Components by Sector</li>
+</ul>
+<hr />
+<h2 id="required-inputs">Required Inputs</h2>
+<h3 id="1-statistical-data-table">1. Statistical Data Table</h3>
+<p>Prepare the statistical data using the standardized Excel template.</p>
+<p><strong>Template File:</strong></p>
+<p><a href="https://1drv.ms/f/c/0192f2f41be57bd4/IgBoqXHS_LkJSrHmeENI4PodAcUQA_-LVZRzkBGzsJ5_W5I?e=xBRcYy">Download Here</a></p>
+<p>The template contains all required statistical variables for ecological footprint calculations.</p>
+<hr />
+<h2 id="output">Output</h2>
+<p>The module generates an <strong>Ecological Footprint Table</strong> containing the following fields:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TAHUN</code></td>
+<td>Analysis year</td>
+</tr>
+<tr>
+<td><code>POPULASI</code></td>
+<td>Total population</td>
+</tr>
+<tr>
+<td><code>PANGAN</code></td>
+<td>Ecological footprint from food consumption</td>
+</tr>
+<tr>
+<td><code>SANDANG</code></td>
+<td>Ecological footprint from clothing consumption</td>
+</tr>
+<tr>
+<td><code>PAPAN</code></td>
+<td>Ecological footprint from housing requirements</td>
+</tr>
+<tr>
+<td><code>BUILTUP</code></td>
+<td>Ecological footprint from built-up land use</td>
+</tr>
+<tr>
+<td><code>EF_CAP_YEAR</code></td>
+<td>Ecological footprint per capita per year</td>
+</tr>
+<tr>
+<td><code>TOTAL_HA</code></td>
+<td>Total land requirement (hectares)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="methodology">Methodology</h2>
+<p>The ecological footprint is calculated by estimating land requirements for various consumption categories and aggregating them into a single footprint indicator.</p>
+<h3 id="food-component-pangan">Food Component (PANGAN)</h3>
+<p>Represents the biologically productive land required to support food consumption.</p>
+<p>Output field:</p>
+<pre><code class="language-text">PANGAN
+</code></pre>
+<h3 id="clothing-component-sandang">Clothing Component (SANDANG)</h3>
+<p>Represents land requirements associated with clothing and textile consumption.</p>
+<p>Output field:</p>
+<pre><code class="language-text">SANDANG
+</code></pre>
+<h3 id="housing-component-papan">Housing Component (PAPAN)</h3>
+<p>Represents land requirements associated with residential needs and housing infrastructure.</p>
+<p>Output field:</p>
+<pre><code class="language-text">PAPAN
+</code></pre>
+<h3 id="built-up-component-builtup">Built-up Component (BUILTUP)</h3>
+<p>Represents land occupied by settlements, infrastructure, and other developed areas.</p>
+<p>Output field:</p>
+<pre><code class="language-text">BUILTUP
+</code></pre>
+<h3 id="ecological-footprint-per-capita">Ecological Footprint per Capita</h3>
+<p>The total ecological footprint per person is calculated as:</p>
+<pre><code class="language-text">EF_CAP_YEAR = PANGAN + SANDANG + PAPAN + BUILTUP
+</code></pre>
+<h3 id="total-land-requirement">Total Land Requirement</h3>
+<p>The total ecological footprint for the population is calculated as:</p>
+<pre><code class="language-text">TOTAL_HA = EF_CAP_YEAR × POPULASI
+</code></pre>
+<p>where:</p>
+<ul>
+<li><code>EF_CAP_YEAR</code> = Ecological Footprint per Capita per Year</li>
+<li><code>POPULASI</code> = Total Population</li>
+</ul>
+<hr />
+<h2 id="processing-workflow">Processing Workflow</h2>
+<ol>
+<li>Download and prepare the statistical data template.</li>
+<li>Populate all required statistical variables in the Excel template.</li>
+<li>Validate the completeness and consistency of the input data.</li>
+<li>Load the completed Excel file into the module.</li>
+<li>
+<p>Calculate ecological footprint components:</p>
+</li>
+<li>
+<p><code>PANGAN</code></p>
+</li>
+<li><code>SANDANG</code></li>
+<li><code>PAPAN</code></li>
+<li><code>BUILTUP</code></li>
+<li>
+<p>Calculate:</p>
+</li>
+<li>
+<p><code>EF_CAP_YEAR</code></p>
+</li>
+<li><code>TOTAL_HA</code></li>
+<li>Generate the final Ecological Footprint Table.</li>
+<li>Save the output table to the selected workspace or temporary directory.</li>
+</ol>
+<hr />
+<h2 id="output-interpretation">Output Interpretation</h2>
+<h3 id="high-ef_cap_year-values">High EF_CAP_YEAR Values</h3>
+<p>Indicate:</p>
+<ul>
+<li>Higher resource consumption per capita</li>
+<li>Greater environmental demand</li>
+<li>Larger ecological footprint per person</li>
+</ul>
+<h3 id="low-ef_cap_year-values">Low EF_CAP_YEAR Values</h3>
+<p>Indicate:</p>
+<ul>
+<li>Lower resource consumption per capita</li>
+<li>Reduced environmental pressure</li>
+<li>Smaller ecological footprint per person</li>
+</ul>
+<h3 id="high-total_ha-values">High TOTAL_HA Values</h3>
+<p>Indicate:</p>
+<ul>
+<li>Large land requirements to support the population</li>
+<li>Higher pressure on environmental resources</li>
+<li>Potential ecological deficit if available land is insufficient</li>
+</ul>
+<h3 id="low-total_ha-values">Low TOTAL_HA Values</h3>
+<p>Indicate:</p>
+<ul>
+<li>Lower overall land requirements</li>
+<li>Reduced environmental pressure</li>
+<li>Greater potential for sustainable resource use</li>
+</ul>
+<hr />
+<h2 id="applications">Applications</h2>
+<p>The resulting ecological footprint dataset can be used for:</p>
+<ul>
+<li>Environmental Carrying Capacity (DDLH) analysis</li>
+<li>Environmental Support Capacity assessment</li>
+<li>Ecological Deficit and Ecological Reserve analysis</li>
+<li>Sustainable development evaluation</li>
+<li>Spatial planning support</li>
+<li>Environmental policy assessment</li>
+<li>Natural resource management</li>
+<li>D3TLH analysis workflows</li>
+</ul>
+<hr />
+<h2 id="notes">Notes</h2>
+<ul>
+<li>Input data must follow the provided Excel template format.</li>
+<li>Statistical data should be consistent and originate from verified sources.</li>
+<li>All calculations are performed on an annual basis.</li>
+<li>Ecological footprint values are expressed in hectares.</li>
+<li>The quality of the results depends on the completeness and accuracy of the input statistical data.</li>
+</ul>
+<hr />
+<h2 id="author">Author</h2>
+<p><strong>Yayasan Lokahita</strong></p>
+<ul>
+<li>Fadillah Azhar Deaudin Kurniawan</li>
+<li>Sitarani Safitri</li>
+<li>Dini Aprilia Norvyani</li>
+<li>Suchi Rahmadani</li>
+<li>Fariz Rizaldy Wibowo</li>
+</ul>
+<h3 id="supported-by">Supported By</h3>
+<p>Directorate for Environmental Impact Prevention and Regional Sectoral Policy<br />
+Kementerian Lingkungan Hidup Republik Indonesia</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../dist_penduduk/" class="btn btn-neutral float-left" title="Model Distribusi Penduduk"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../ikp/ikp_air/" class="btn btn-neutral float-right" title="IKP Air">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../dist_penduduk/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../../ikp/ikp_air/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

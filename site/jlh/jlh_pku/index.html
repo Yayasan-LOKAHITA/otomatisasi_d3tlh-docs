@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>JLH Pengatur Kualitas Udara - Otomatisasi D3TLH</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "JLH Pengatur Kualitas Udara";
+        var mkdocs_page_input_path = "jlh\\jlh_pku.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Otomatisasi D3TLH
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">A. Utilities</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../mca/">MCA</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../grid/">SGSRI</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">B. Preprocessing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../class_lckws/">Klasifikasi PL & Hutan KLHK</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../class_road/">Klasifikasi Jalan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../std_schema/">Standarisasi Skema Data</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../chk_quality/">Perbaikan Data</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../add_islandatrbt/">Penambahan Atribut Pulau</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">C. JLH</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../jlh_phk/">JLH Pendukung Habitat dan Kehati</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">JLH Pengatur Kualitas Udara</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#purpose">Purpose</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#required-inputs">Required Inputs</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#1-land-cover-map">1. Land Cover Map</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#2-ecoregion-map">2. Ecoregion Map</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#3-study-area-grid-layer-optional">3. Study Area Grid Layer (Optional)</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#output">Output</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#methodology">Methodology</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#processing-workflow">Processing Workflow</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#input-requirements">Input Requirements</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#land-cover-layer">Land Cover Layer</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ecoregion-layer">Ecoregion Layer</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#grid-layer-optional">Grid Layer (Optional)</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#output-types">Output Types</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#polygon-output">Polygon Output</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#grid-output">Grid Output</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#interpretation">Interpretation</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#notes">Notes</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#references">References</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#author">Author</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#supported-by">Supported By</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../jlh_pga/">JLH Pengaturan Air</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../jlh_pya/">JLH Penyedia Air</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../jlh_pgn/">JLH Penyedia Pangan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../jlh_ppk/">JLH Penyerapan dan Penyimpanan Karbon</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">D. Demo and Eco Model</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../socio/dist_penduduk/">Model Distribusi Penduduk</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../socio/eco_footprint/">Model Jejak Ekologis</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">E. IKP</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ikp/ikp_air/">IKP Air</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ikp/ikp_kehati/">IKP Kehati</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ikp/ikp_lahan/">IKP Lahan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ikp/ikp_udara/">IKP Udara</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">F. Integration (Indeks D3TLH)</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ikp/index_d3tlh/">Indeks D3TLH</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">G. Styling</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../simbology/">Simbology</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Otomatisasi D3TLH</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">C. JLH</li>
+      <li class="breadcrumb-item active">JLH Pengatur Kualitas Udara</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="indeks-jasa-lingkungan-hidup-pengatur-kualitas-udara-jlh_pku">Indeks Jasa Lingkungan Hidup Pengatur Kualitas Udara (JLH_PKU)</h1>
+<h2 id="overview">Overview</h2>
+<p>This algorithm calculates the <strong>Environmental Ecosystem Service Index for Air Quality Regulation (JLH_PKU)</strong>, which represents the ability of ecosystems to improve and maintain air quality.</p>
+<p>The methodology is based on the <strong>D3TLH Technical Guideline 2024</strong> and has been adapted for spatial analysis at both national and island scales.</p>
+<hr />
+<h2 id="purpose">Purpose</h2>
+<p>To assess the contribution of ecosystems to air quality improvement through spatial analysis of land cover and ecoregion characteristics that influence the filtration, absorption, and neutralization of air pollutants.</p>
+<hr />
+<h2 id="required-inputs">Required Inputs</h2>
+<h3 id="1-land-cover-map">1. Land Cover Map</h3>
+<p>Vector dataset containing the following field:</p>
+<ul>
+<li><code>PL</code></li>
+</ul>
+<h3 id="2-ecoregion-map">2. Ecoregion Map</h3>
+<p>Vector dataset containing the following fields:</p>
+<ul>
+<li><code>KBA_250</code></li>
+<li><code>KVA_250</code></li>
+</ul>
+<h3 id="3-study-area-grid-layer-optional">3. Study Area Grid Layer (Optional)</h3>
+<p>Required only when the selected output type is <strong>Grid</strong>.</p>
+<hr />
+<h2 id="output">Output</h2>
+<p>The algorithm generates:</p>
+<ul>
+<li>Vector map containing the <strong>Air Quality Regulation Ecosystem Service Index (JLH_PKU)</strong> values.</li>
+</ul>
+<hr />
+<h2 id="methodology">Methodology</h2>
+<p>The index is calculated using a scoring and weighting approach based on:</p>
+<ul>
+<li>Land Cover characteristics (<code>PL</code>)</li>
+<li>Ecoregion landform characteristics (<code>KBA_250</code>)</li>
+<li>Ecoregion vegetation characteristics (<code>KVA_250</code>)</li>
+</ul>
+<p>Each ecosystem type is assigned a score according to its capacity to:</p>
+<ul>
+<li>Filter airborne pollutants</li>
+<li>Absorb particulate matter</li>
+<li>Sequester atmospheric contaminants</li>
+<li>Improve overall air quality</li>
+</ul>
+<p>The weighted scores are then combined to produce the final JLH_PKU value.</p>
+<hr />
+<h2 id="processing-workflow">Processing Workflow</h2>
+<ol>
+<li>Select the study area scale (<strong>National</strong> or <strong>Island</strong>).</li>
+</ol>
+<blockquote>
+<p>If using island-scale analysis, the Land Cover dataset must contain a <code>PULAU</code> field.</p>
+</blockquote>
+<ol>
+<li>
+<p>Select the output type:</p>
+</li>
+<li>
+<p>Polygon</p>
+</li>
+<li>
+<p>Grid</p>
+</li>
+<li>
+<p>If <strong>Grid</strong> output is selected, provide a Grid layer generated using the Utility module.</p>
+</li>
+<li>
+<p>Specify the year of the Land Cover dataset.</p>
+</li>
+<li>
+<p>Provide the required datasets:</p>
+</li>
+<li>
+<p>Land Cover (<code>PL</code>)</p>
+</li>
+<li>
+<p>Ecoregion (<code>KBA_250</code>, <code>KVA_250</code>)</p>
+</li>
+<li>
+<p>(Optional) Provide a Grid layer for grid-based analysis.</p>
+</li>
+<li>
+<p>Run the algorithm.</p>
+</li>
+</ol>
+<hr />
+<h2 id="input-requirements">Input Requirements</h2>
+<h3 id="land-cover-layer">Land Cover Layer</h3>
+<p>The input layer must contain:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PL</code></td>
+<td>Land Cover classification</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ecoregion-layer">Ecoregion Layer</h3>
+<p>The input layer must contain:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>KBA_250</code></td>
+<td>Ecoregion Landform Characteristic</td>
+</tr>
+<tr>
+<td><code>KVA_250</code></td>
+<td>Ecoregion Natural Vegetation Characteristic</td>
+</tr>
+</tbody>
+</table>
+<h3 id="grid-layer-optional">Grid Layer (Optional)</h3>
+<p>Required when generating grid-based outputs.</p>
+<p>The grid can be generated using the <strong>Utility → IMGS/Grid Generation</strong> module.</p>
+<hr />
+<h2 id="output-types">Output Types</h2>
+<h3 id="polygon-output">Polygon Output</h3>
+<p>Produces JLH_PKU values for each polygon feature resulting from the analysis.</p>
+<h3 id="grid-output">Grid Output</h3>
+<p>Produces JLH_PKU values aggregated to the specified grid system.</p>
+<hr />
+<h2 id="interpretation">Interpretation</h2>
+<p>Higher index values indicate ecosystems with greater capacity to:</p>
+<ul>
+<li>Improve air quality</li>
+<li>Filter pollutants</li>
+<li>Support atmospheric regulation functions</li>
+</ul>
+<p>Lower index values indicate ecosystems with reduced air quality regulation capacity.</p>
+<hr />
+<h2 id="notes">Notes</h2>
+<ul>
+<li>For island-scale analysis, ensure the Land Cover layer contains a valid <code>PULAU</code> field.</li>
+<li>The Grid layer is mandatory when selecting Grid output.</li>
+<li>It is recommended to save the output as a permanent layer rather than a temporary layer.</li>
+<li>Ensure that all required fields are properly standardized before running the analysis.</li>
+</ul>
+<hr />
+<h2 id="references">References</h2>
+<ul>
+<li>D3TLH Technical Guideline 2024</li>
+<li>D3TLH Technical Guideline 2025</li>
+</ul>
+<hr />
+<h2 id="author">Author</h2>
+<p><strong>Yayasan Lokahita</strong></p>
+<ul>
+<li>Fadillah Azhar Deaudin Kurniawan</li>
+<li>Sitarani Safitri</li>
+<li>Dini Aprilia Norvyani</li>
+<li>Suchi Rahmadani</li>
+<li>Fariz Rizaldy Wibowo</li>
+</ul>
+<h3 id="supported-by">Supported By</h3>
+<p>Directorate for Environmental Impact Prevention and Regional Sectoral Policy<br />
+Kementerian Lingkungan Hidup Republik Indonesia</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../jlh_phk/" class="btn btn-neutral float-left" title="JLH Pendukung Habitat dan Kehati"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../jlh_pga/" class="btn btn-neutral float-right" title="JLH Pengaturan Air">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../jlh_phk/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../jlh_pga/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

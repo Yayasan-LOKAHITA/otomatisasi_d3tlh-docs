@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>IKP Air - Otomatisasi D3TLH</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "IKP Air";
+        var mkdocs_page_input_path = "ikp\\ikp_air.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Otomatisasi D3TLH
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">A. Utilities</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../mca/">MCA</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../grid/">SGSRI</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">B. Preprocessing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../class_lckws/">Klasifikasi PL & Hutan KLHK</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../class_road/">Klasifikasi Jalan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../std_schema/">Standarisasi Skema Data</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../chk_quality/">Perbaikan Data</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../add_islandatrbt/">Penambahan Atribut Pulau</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">C. JLH</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../jlh/jlh_phk/">JLH Pendukung Habitat dan Kehati</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../jlh/jlh_pku/">JLH Pengatur Kualitas Udara</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../jlh/jlh_pga/">JLH Pengaturan Air</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../jlh/jlh_pya/">JLH Penyedia Air</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../jlh/jlh_pgn/">JLH Penyedia Pangan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../jlh/jlh_ppk/">JLH Penyerapan dan Penyimpanan Karbon</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">D. Demo and Eco Model</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../socio/dist_penduduk/">Model Distribusi Penduduk</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../socio/eco_footprint/">Model Jejak Ekologis</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">E. IKP</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">IKP Air</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#purpose">Purpose</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#required-inputs">Required Inputs</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#1-analysis-year">1. Analysis Year</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#2-jlh-water-provision-grid">2. JLH Water Provision Grid</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#3-river-basin-layer-ws">3. River Basin Layer (WS)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#4-land-cover-grid">4. Land Cover Grid</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#5-pollution-index-table">5. Pollution Index Table</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#6-population-distribution-grid">6. Population Distribution Grid</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#sample-data">Sample Data</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#output">Output</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#methodology">Methodology</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#water-availability-assessment">Water Availability Assessment</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#water-quality-assessment">Water Quality Assessment</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#usable-water-availability">Usable Water Availability</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#population-water-demand">Population Water Demand</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#land-cover-based-water-demand">Land-Cover-Based Water Demand</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#total-water-demand">Total Water Demand</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ikp-air-calculation">IKP Air Calculation</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#classification">Classification</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#processing-workflow">Processing Workflow</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#output-interpretation">Output Interpretation</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#high-ikp-values">High IKP Values</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#moderate-ikp-values">Moderate IKP Values</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#low-ikp-values">Low IKP Values</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#high-skor_ikp">High SKOR_IKP</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#low-skor_ikp">Low SKOR_IKP</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#applications">Applications</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#notes">Notes</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#author">Author</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#supported-by">Supported By</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../ikp_kehati/">IKP Kehati</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../ikp_lahan/">IKP Lahan</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../ikp_udara/">IKP Udara</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">F. Integration (Indeks D3TLH)</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../index_d3tlh/">Indeks D3TLH</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">G. Styling</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../simbology/">Simbology</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Otomatisasi D3TLH</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">E. IKP</li>
+      <li class="breadcrumb-item active">IKP Air</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="water-utilization-capability-index-ikp-air">Water Utilization Capability Index (IKP Air)</h1>
+<h2 id="overview">Overview</h2>
+<p>This module calculates the <strong>Water Utilization Capability Index (IKP Air)</strong>, an indicator used to assess the capability of water resources to support human activities while maintaining environmental sustainability.</p>
+<p>The methodology integrates water ecosystem services, river basin water availability, water quality conditions, land-use-based water demand, and population-based water demand. The resulting index represents the balance between available usable water and total water demand within each analysis grid.</p>
+<p>The output can be used for environmental carrying capacity assessments, water resource planning, watershed management, and D3TLH analysis workflows.</p>
+<hr />
+<h2 id="purpose">Purpose</h2>
+<p>To evaluate the capability of water resources to support human and ecological needs by comparing:</p>
+<ul>
+<li>Available water resources</li>
+<li>Water quality conditions</li>
+<li>Population water demand</li>
+<li>Land-use water demand</li>
+</ul>
+<p>The analysis produces:</p>
+<ul>
+<li>Water Utilization Capability Index (IKP Air)</li>
+<li>Water Availability Assessment</li>
+<li>Water Demand Assessment</li>
+<li>Water Capability Classification</li>
+<li>Water Capability Score</li>
+</ul>
+<hr />
+<h2 id="required-inputs">Required Inputs</h2>
+<h3 id="1-analysis-year">1. Analysis Year</h3>
+<p>Analysis year used to identify year-dependent fields.</p>
+<table>
+<thead>
+<tr>
+<th>Year</th>
+<th>Field Suffix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td><code>_24</code></td>
+</tr>
+<tr>
+<td>2025</td>
+<td><code>_25</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="2-jlh-water-provision-grid">2. JLH Water Provision Grid</h3>
+<p>Grid layer generated from the <strong>JLH Penyedia Air (PYA)</strong> analysis.</p>
+<p>Required field:</p>
+<pre><code class="language-text">PYA_YY_KK
+</code></pre>
+<p>where:</p>
+<ul>
+<li><code>YY</code> = last two digits of the analysis year</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-text">PYA_24_KK
+</code></pre>
+<p>This field represents water provisioning ecosystem service values.</p>
+<hr />
+<h3 id="3-river-basin-layer-ws">3. River Basin Layer (WS)</h3>
+<p>River basin (Wilayah Sungai) layer.</p>
+<p>Required fields:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>WS</code></td>
+<td>River basin identifier</td>
+</tr>
+<tr>
+<td><code>Ktrs_Air</code></td>
+<td>Water availability coefficient</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="4-land-cover-grid">4. Land Cover Grid</h3>
+<p>Grid-based land cover dataset.</p>
+<p>Required fields:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ID</code></td>
+<td>Grid identifier</td>
+</tr>
+<tr>
+<td><code>PL</code></td>
+<td>Land cover class</td>
+</tr>
+<tr>
+<td><code>WADMPR</code></td>
+<td>Province code</td>
+</tr>
+<tr>
+<td><code>WADMKK</code></td>
+<td>Regency/Municipality code</td>
+</tr>
+<tr>
+<td><code>WADMKC</code></td>
+<td>District code</td>
+</tr>
+<tr>
+<td><code>WADMKD</code></td>
+<td>Village code</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="5-pollution-index-table">5. Pollution Index Table</h3>
+<p>Pollution Index table describing water pollution conditions.</p>
+<p>Required fields:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Kab_Kota</code></td>
+<td>Regency/Municipality name</td>
+</tr>
+<tr>
+<td><code>Jumlah_Titik_Cemar_Ringan</code></td>
+<td>Number of lightly polluted monitoring points</td>
+</tr>
+<tr>
+<td><code>Jumlah_Titik_Cemar_Sedang</code></td>
+<td>Number of moderately polluted monitoring points</td>
+</tr>
+<tr>
+<td><code>Jumlah_Titik_Cemar_Berat</code></td>
+<td>Number of heavily polluted monitoring points</td>
+</tr>
+<tr>
+<td><code>Total</code></td>
+<td>Total monitoring points</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="6-population-distribution-grid">6. Population Distribution Grid</h3>
+<p>Population distribution model output.</p>
+<p>Required field:</p>
+<pre><code class="language-text">POPGRIDYY
+</code></pre>
+<p>where:</p>
+<ul>
+<li><code>YY</code> = last two digits of the analysis year</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-text">POPGRID24
+</code></pre>
+<h3 id="sample-data">Sample Data</h3>
+<p>Input data and sample datasets can be downloaded from:</p>
+<p><a href="https://1drv.ms/f/c/0192f2f41be57bd4/IgCLOA9DpbH4Qrg8M6ilrxYmAYxRISdnze0v97ejJmF3eCU?e=tTRSmN">Download Here</a></p>
+<hr />
+<h2 id="output">Output</h2>
+<p>The algorithm produces an <strong>IKP Air Grid Layer</strong>.</p>
+<p>Each grid contains:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ID</code></td>
+<td>Grid identifier</td>
+</tr>
+<tr>
+<td><code>AIR_WS</code></td>
+<td>Available water resources</td>
+</tr>
+<tr>
+<td><code>AIR_CEMAR</code></td>
+<td>Polluted water volume</td>
+</tr>
+<tr>
+<td><code>AIR_LAYAK</code></td>
+<td>Usable water availability</td>
+</tr>
+<tr>
+<td><code>BA_POP</code></td>
+<td>Population water demand</td>
+</tr>
+<tr>
+<td><code>BA_PL</code></td>
+<td>Land-cover-based water demand</td>
+</tr>
+<tr>
+<td><code>BA_TOTAL</code></td>
+<td>Total water demand</td>
+</tr>
+<tr>
+<td><code>IKPAIR</code></td>
+<td>Water Utilization Capability Index</td>
+</tr>
+<tr>
+<td><code>KELAS_IKP</code></td>
+<td>IKP classification</td>
+</tr>
+<tr>
+<td><code>SKOR_IKP</code></td>
+<td>IKP score</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="methodology">Methodology</h2>
+<h3 id="water-availability-assessment">Water Availability Assessment</h3>
+<p>Water provisioning services from the JLH Water Provision layer are aggregated within river basin areas.</p>
+<p>Water availability is estimated using:</p>
+<pre><code class="language-text">AIR_WS
+</code></pre>
+<p>where:</p>
+<ul>
+<li>Water provisioning values (<code>PYA_YY_KK</code>)</li>
+<li>River basin water coefficients (<code>Ktrs_Air</code>)</li>
+</ul>
+<p>are combined to estimate usable water resources.</p>
+<hr />
+<h3 id="water-quality-assessment">Water Quality Assessment</h3>
+<p>Pollution Index information is joined to the analysis grid.</p>
+<p>The proportion of polluted water is estimated from:</p>
+<ul>
+<li>Light pollution</li>
+<li>Moderate pollution</li>
+<li>Heavy pollution</li>
+</ul>
+<p>Output field:</p>
+<pre><code class="language-text">AIR_CEMAR
+</code></pre>
+<hr />
+<h3 id="usable-water-availability">Usable Water Availability</h3>
+<p>Usable water is calculated by subtracting polluted water from available water resources.</p>
+<pre><code class="language-text">AIR_LAYAK = AIR_WS - AIR_CEMAR
+</code></pre>
+<p>where:</p>
+<ul>
+<li><code>AIR_WS</code> = available water</li>
+<li><code>AIR_CEMAR</code> = polluted water</li>
+</ul>
+<hr />
+<h3 id="population-water-demand">Population Water Demand</h3>
+<p>Water demand from population is calculated using:</p>
+<pre><code class="language-text">BA_POP
+</code></pre>
+<p>derived from:</p>
+<pre><code class="language-text">POPGRIDYY
+</code></pre>
+<p>Population demand increases proportionally with population density.</p>
+<hr />
+<h3 id="land-cover-based-water-demand">Land-Cover-Based Water Demand</h3>
+<p>Water demand is estimated from land cover classes.</p>
+<p>Each land cover class is assigned a standard water demand coefficient.</p>
+<p>Output field:</p>
+<pre><code class="language-text">BA_PL
+</code></pre>
+<hr />
+<h3 id="total-water-demand">Total Water Demand</h3>
+<p>Total water demand is calculated as:</p>
+<pre><code class="language-text">BA_TOTAL = BA_POP + BA_PL
+</code></pre>
+<hr />
+<h3 id="ikp-air-calculation">IKP Air Calculation</h3>
+<p>The Water Utilization Capability Index is calculated as:</p>
+<pre><code class="language-text">IKPAIR = BA_TOTAL / AIR_LAYAK
+</code></pre>
+<p>where:</p>
+<ul>
+<li><code>BA_TOTAL</code> = total water demand</li>
+<li><code>AIR_LAYAK</code> = usable water availability</li>
+</ul>
+<p>The resulting value represents pressure on available water resources.</p>
+<hr />
+<h3 id="classification">Classification</h3>
+<p>The resulting IKP values are classified into five categories.</p>
+<table>
+<thead>
+<tr>
+<th>Score</th>
+<th>Class</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5</td>
+<td>Very High</td>
+</tr>
+<tr>
+<td>4</td>
+<td>High</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Moderate</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Very Low</td>
+</tr>
+</tbody>
+</table>
+<p>Output fields:</p>
+<pre><code class="language-text">KELAS_IKP
+</code></pre>
+<pre><code class="language-text">SKOR_IKP
+</code></pre>
+<hr />
+<h2 id="processing-workflow">Processing Workflow</h2>
+<ol>
+<li>Harmonize the coordinate reference system (CRS) of all datasets.</li>
+<li>Repair invalid geometries and create spatial indexes.</li>
+<li>Load:</li>
+<li>JLH Water Provision Grid</li>
+<li>River Basin Layer (WS)</li>
+<li>Land Cover Grid</li>
+<li>Pollution Index Table</li>
+<li>Population Distribution Grid</li>
+<li>Identify the analysis year and construct year-dependent field names.</li>
+<li>Calculate water availability (<code>AIR_WS</code>) using:</li>
+<li>PYA ecosystem services</li>
+<li>River basin coefficients.</li>
+<li>Join Pollution Index information.</li>
+<li>Calculate:</li>
+<li><code>AIR_CEMAR</code></li>
+<li><code>AIR_LAYAK</code></li>
+<li>Calculate population water demand (<code>BA_POP</code>).</li>
+<li>Calculate land-cover-based water demand (<code>BA_PL</code>).</li>
+<li>Calculate:<ul>
+<li><code>BA_TOTAL</code></li>
+</ul>
+</li>
+<li>Calculate:<ul>
+<li><code>IKPAIR</code></li>
+</ul>
+</li>
+<li>Classify results into:<ul>
+<li>Very High</li>
+<li>High</li>
+<li>Moderate</li>
+<li>Low</li>
+<li>Very Low</li>
+</ul>
+</li>
+<li>Assign:<ul>
+<li><code>KELAS_IKP</code></li>
+<li><code>SKOR_IKP</code></li>
+</ul>
+</li>
+<li>Generate the final IKP Air layer.</li>
+</ol>
+<hr />
+<h2 id="output-interpretation">Output Interpretation</h2>
+<h3 id="high-ikp-values">High IKP Values</h3>
+<p>Indicate:</p>
+<ul>
+<li>Adequate water availability</li>
+<li>Good water quality conditions</li>
+<li>Sustainable water utilization</li>
+<li>Lower pressure on water resources</li>
+</ul>
+<h3 id="moderate-ikp-values">Moderate IKP Values</h3>
+<p>Indicate:</p>
+<ul>
+<li>Balanced water demand and availability</li>
+<li>Moderate environmental pressure</li>
+<li>Increased monitoring may be required</li>
+</ul>
+<h3 id="low-ikp-values">Low IKP Values</h3>
+<p>Indicate:</p>
+<ul>
+<li>High water demand</li>
+<li>Limited water availability</li>
+<li>Significant pollution pressure</li>
+<li>Potential water resource deficits</li>
+</ul>
+<h3 id="high-skor_ikp">High SKOR_IKP</h3>
+<p>Indicates areas with strong water resource support capacity.</p>
+<h3 id="low-skor_ikp">Low SKOR_IKP</h3>
+<p>Indicates areas requiring water resource management and conservation measures.</p>
+<hr />
+<h2 id="applications">Applications</h2>
+<p>The resulting Water IKP dataset can be used for:</p>
+<ul>
+<li>Environmental Carrying Capacity (DDLH) analysis</li>
+<li>Water resource planning</li>
+<li>Watershed management</li>
+<li>Water security assessment</li>
+<li>Spatial planning</li>
+<li>Environmental policy development</li>
+<li>Climate adaptation planning</li>
+<li>D3TLH analysis workflows</li>
+</ul>
+<hr />
+<h2 id="notes">Notes</h2>
+<ul>
+<li>All input datasets should use the same CRS.</li>
+<li>Population, land cover, and JLH data should represent the same analysis year.</li>
+<li>River basin boundaries should cover the entire analysis area.</li>
+<li>Pollution Index data must correspond to the analysis region.</li>
+<li>Water demand estimates depend on land cover classification quality.</li>
+<li>The quality of the final index depends on the accuracy of water provisioning, pollution, and population datasets.</li>
+</ul>
+<hr />
+<h2 id="author">Author</h2>
+<p><strong>Yayasan Lokahita</strong></p>
+<ul>
+<li>Fadillah Azhar Deaudin Kurniawan</li>
+<li>Sitarani Safitri</li>
+<li>Dini Aprilia Norvyani</li>
+<li>Suchi Rahmadani</li>
+<li>Fariz Rizaldy Wibowo</li>
+</ul>
+<h3 id="supported-by">Supported By</h3>
+<p>Directorate for Environmental Impact Prevention and Regional Sectoral Policy<br />
+Kementerian Lingkungan Hidup Republik Indonesia</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../socio/eco_footprint/" class="btn btn-neutral float-left" title="Model Jejak Ekologis"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../ikp_kehati/" class="btn btn-neutral float-right" title="IKP Kehati">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../../socio/eco_footprint/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../ikp_kehati/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

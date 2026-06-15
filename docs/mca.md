@@ -39,5 +39,5 @@ A **GRID** layer with an additional field containing the dominant class from **L
 - Fariz Rizaldy Wibowo
 
 ### Supported By
-
-**Kementerian Lingkungan Hidup Republik Indonesia**
+Directorate for Environmental Impact Prevention and Regional Sectoral Policy  
+Kementerian Lingkungan Hidup Republik Indonesia

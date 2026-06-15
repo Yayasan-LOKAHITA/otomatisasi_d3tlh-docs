@@ -118,5 +118,5 @@ Verify that the selected identifier field exists in the input dataset.
 - Fariz Rizaldy Wibowo
 
 ### Supported By
-
-**Kementerian Lingkungan Hidup Republik Indonesia**
+Directorate for Environmental Impact Prevention and Regional Sectoral Policy  
+Kementerian Lingkungan Hidup Republik Indonesia
